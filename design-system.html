@@ -1,0 +1,2262 @@
+<!DOCTYPE html><html lang="en"><head>
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Morphed — Design System v0.1</title>
+<link rel="icon" type="image/webp" href="assets/mark.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tokens ---------- */
+  :root {
+    /* Core brand */
+    --teal-500: #02edc6;
+    --teal-400: #4df3d4;
+    --teal-300: #8af7e3;
+    --teal-600: #00c9a8;
+    --teal-700: #009c82;
+    --teal-glow: rgba(2, 237, 198, 0.35);
+
+    /* Neutrals — cool dark, a whisper of the teal hue */
+    --ink-0:  #ffffff;
+    --ink-50: #f4f6f6;
+    --ink-100:#dfe3e3;
+    --ink-200:#b8bebd;
+    --ink-300:#8a9190;
+    --ink-400:#5e6564;
+    --ink-500:#3b4241;
+    --ink-600:#262c2b;
+    --ink-700:#1a1f1e;
+    --ink-800:#121615;
+    --ink-900:#0b0e0d;
+    --ink-950:#060807;
+
+    /* Semantic — dark surface map */
+    --bg:           var(--ink-950);
+    --bg-elev-1:   var(--ink-900);
+    --bg-elev-2:   var(--ink-800);
+    --bg-elev-3:   var(--ink-700);
+    --border:      #1f2624;
+    --border-strong:#2c3432;
+    --text:         var(--ink-50);
+    --text-muted:   var(--ink-300);
+    --text-subtle:  var(--ink-400);
+    --primary:      var(--teal-500);
+    --primary-ink:  #00110e;     /* text to sit on teal */
+
+    /* Feedback */
+    --success: #3ddc97;
+    --warning: #f5c451;
+    --danger:  #ff6a6a;
+    --info:    #6ec1ff;
+
+    /* Radii */
+    --r-xs: 2px;
+    --r-sm: 4px;
+    --r-md: 8px;
+    --r-lg: 12px;
+    --r-xl: 20px;
+    --r-pill: 999px;
+
+    /* Spacing (4px base) */
+    --s-1: 4px;
+    --s-2: 8px;
+    --s-3: 12px;
+    --s-4: 16px;
+    --s-5: 24px;
+    --s-6: 32px;
+    --s-7: 48px;
+    --s-8: 64px;
+    --s-9: 96px;
+
+    /* Elevation */
+    --shadow-1: 0 1px 0 rgba(255,255,255,0.03) inset, 0 1px 2px rgba(0,0,0,0.4);
+    --shadow-2: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.45);
+    --shadow-3: 0 1px 0 rgba(255,255,255,0.05) inset, 0 20px 48px rgba(0,0,0,0.55);
+    --shadow-glow: 0 0 0 1px rgba(2,237,198,0.35), 0 12px 40px -8px rgba(2,237,198,0.35);
+
+    /* Type */
+    --font-sans: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "ss01", "ss02";
+  }
+
+  /* Ambient grid background */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(1200px 600px at 85% -10%, rgba(2,237,198,0.08), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(2,237,198,0.05), transparent 60%),
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: auto, auto, 48px 48px, 48px 48px;
+    background-position: 0 0, 0 0, -1px -1px, -1px -1px;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ---------- Layout shell ---------- */
+  .page {
+    position: relative; z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--s-7) var(--s-6) var(--s-9);
+  }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--s-4) 0 var(--s-7);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--s-7);
+  }
+  .topbar .brand {
+    display: flex; align-items: center; gap: var(--s-3);
+    color: var(--text);
+  }
+  .topbar .brand svg { height: 22px; width: auto; color: var(--text); }
+  .topbar .brand .divider {
+    width: 1px; height: 20px; background: var(--border-strong);
+  }
+  .topbar .brand .label {
+    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 500;
+  }
+  .topbar .meta {
+    display: flex; gap: var(--s-3); align-items: center;
+    font-family: var(--font-mono); font-size: 12px; color: var(--text-subtle);
+  }
+  .topbar .meta .dot {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--teal-500);
+    box-shadow: 0 0 8px var(--teal-glow);
+  }
+
+  h1, h2, h3, h4 { margin: 0; font-weight: 500; letter-spacing: -0.01em; }
+  h1 { font-size: 56px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 500; }
+  h2 { font-size: 32px; line-height: 1.15; letter-spacing: -0.02em; font-weight: 500; }
+  h3 { font-size: 20px; line-height: 1.25; font-weight: 500; }
+  p  { margin: 0; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--teal-500);
+    display: inline-flex; align-items: center; gap: var(--s-2);
+  }
+  .eyebrow::before {
+    content: ""; width: 14px; height: 1px; background: var(--teal-500);
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--s-7);
+    align-items: end;
+    margin-bottom: var(--s-9);
+  }
+  .hero .lead { font-size: 18px; color: var(--text-muted); max-width: 52ch; margin-top: var(--s-5); }
+  .hero .kv {
+    border-top: 1px solid var(--border);
+    margin-top: var(--s-6);
+    padding-top: var(--s-4);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-4) var(--s-6);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .hero .kv b { color: var(--text); font-weight: 500; }
+
+  /* Sections */
+  section.block { margin-bottom: var(--s-9); }
+  .section-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--s-6); margin-bottom: var(--s-6);
+    border-top: 1px solid var(--border); padding-top: var(--s-6);
+  }
+  .section-head .title { display: flex; flex-direction: column; gap: var(--s-2); }
+  .section-head .title h2 { font-size: 28px; }
+  .section-head .title .num {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em;
+    color: var(--text-subtle); text-transform: uppercase;
+  }
+  .section-head .desc { color: var(--text-muted); max-width: 44ch; font-size: 14px; }
+
+  /* Panels */
+  .panel {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+  }
+  .panel + .panel { margin-top: var(--s-4); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); }
+  .grid-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--s-3); }
+
+  /* ---------- Brand block ---------- */
+  .brand-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr;
+    gap: var(--s-4);
+  }
+  .logo-tile {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+    min-height: 220px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .logo-tile .logo-stage {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+  }
+  .logo-tile.hero-tile {
+    background:
+      radial-gradient(500px 240px at 80% 20%, rgba(2,237,198,0.16), transparent 60%),
+      var(--bg-elev-1);
+  }
+  .logo-tile .caption {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle);
+    text-transform: uppercase; letter-spacing: 0.14em;
+  }
+  .logo-tile .caption b { color: var(--text); font-weight: 500; letter-spacing: 0.06em; text-transform: none; font-family: var(--font-sans); font-size: 13px; }
+  .logo-tile svg { color: var(--text); }
+  .logo-tile.teal svg { color: var(--teal-500); }
+  .logo-tile.inverse { background: var(--ink-50); }
+  .logo-tile.inverse svg { color: var(--ink-900); }
+  .logo-tile.inverse .caption { color: var(--ink-400); }
+  .logo-tile.inverse .caption b { color: var(--ink-900); }
+
+  /* Clearspace diagram */
+  .clearspace {
+    position: relative; width: 200px; height: 140px;
+  }
+  /* Favicon strip */
+  .favicon-strip { display: flex; flex-direction: column; gap: var(--s-3); justify-content: center; }
+  .favicon-strip .f-row { display: flex; align-items: flex-end; gap: var(--s-3); justify-content: center; }
+  .favicon-strip .fav {
+    background: var(--bg-elev-2); border: 1px solid var(--border-strong);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px; padding: 4px;
+  }
+  .favicon-strip .fav img { width: 100%; height: 100%; object-fit: contain; }
+  .favicon-strip .fav-64 { width: 64px; height: 64px; border-radius: 12px; }
+  .favicon-strip .fav-32 { width: 32px; height: 32px; border-radius: 6px; }
+  .favicon-strip .fav-24 { width: 24px; height: 24px; border-radius: 5px; }
+  .favicon-strip .fav-16 { width: 16px; height: 16px; border-radius: 3px; }
+  .favicon-strip .f-labels { display: flex; gap: var(--s-3); justify-content: center; font-family: var(--font-mono); font-size: 10px; color: var(--text-subtle); }
+  .favicon-strip .f-labels span { text-align: center; width: 64px; }
+  .favicon-strip .f-labels span:nth-child(2) { width: 32px; }
+  .favicon-strip .f-labels span:nth-child(3) { width: 24px; }
+  .favicon-strip .f-labels span:nth-child(4) { width: 16px; }
+  .favicon-strip .f-caption { text-align: center; font-family: var(--font-mono); font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em; margin-top: var(--s-2); }
+  .clearspace .mark-inner { position: absolute; inset: 28px; display: flex; align-items: center; justify-content: center; }
+  .clearspace .mark-inner svg { height: 80px; width: auto; color: var(--text); }
+  .clearspace .frame {
+    position: absolute; inset: 0;
+    border: 1px dashed var(--teal-500);
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+  .clearspace .tick {
+    position: absolute; font-family: var(--font-mono); font-size: 10px; color: var(--teal-500);
+  }
+  .clearspace .tick.t { top: -18px; left: 50%; transform: translateX(-50%); }
+  .clearspace .tick.r { right: -22px; top: 50%; transform: translateY(-50%); }
+
+  /* ---------- Color ---------- */
+  .color-scale {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .swatch {
+    padding: var(--s-5) var(--s-3);
+    min-height: 120px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    gap: var(--s-2);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+  .swatch .name { font-weight: 500; font-size: 11px; }
+  .swatch .hex { opacity: 0.7; }
+  .swatch.dark { color: rgba(255,255,255,0.9); }
+  .swatch.light { color: rgba(0,0,0,0.85); }
+
+  .color-callouts { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-4); margin-top: var(--s-4); }
+  .callout {
+    border: 1px solid var(--border); border-radius: var(--r-lg);
+    padding: var(--s-5); background: var(--bg-elev-1);
+    display: flex; flex-direction: column; gap: var(--s-3);
+  }
+  .callout .chip {
+    height: 64px; border-radius: var(--r-md);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .callout .meta { display: flex; justify-content: space-between; align-items: baseline; }
+  .callout .meta .k { font-size: 13px; font-weight: 500; }
+  .callout .meta .v { font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle); }
+  .callout .use { font-size: 12px; color: var(--text-muted); }
+
+  /* ---------- Typography ---------- */
+  .type-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 180px;
+    gap: var(--s-5);
+    align-items: baseline;
+    padding: var(--s-5) 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .type-row:last-child { border-bottom: 0; }
+  .type-row .label {
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle);
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .type-row .sample { color: var(--text); letter-spacing: -0.02em; }
+  .type-row .specs {
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+    text-align: right; line-height: 1.6;
+  }
+
+  .type-pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); margin-top: var(--s-4); }
+  .font-card {
+    border: 1px solid var(--border); border-radius: var(--r-lg);
+    padding: var(--s-6); background: var(--bg-elev-1);
+  }
+  .font-card .glyph {
+    font-size: 96px; line-height: 1; letter-spacing: -0.04em; margin-bottom: var(--s-4);
+  }
+  .font-card.mono .glyph { font-family: var(--font-mono); font-size: 80px; letter-spacing: -0.02em; }
+  .font-card h3 { margin-bottom: var(--s-1); }
+  .font-card .meta {
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle);
+    letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: var(--s-4);
+  }
+  .weights { display: flex; flex-wrap: wrap; gap: var(--s-4); }
+  .weights span { font-size: 18px; }
+
+  /* ---------- Spacing / Radii ---------- */
+  .spacing-row { display: flex; align-items: center; gap: var(--s-5); padding: var(--s-3) 0; }
+  .spacing-row .bar { background: var(--teal-500); height: 10px; border-radius: 2px; }
+  .spacing-row .label { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); width: 80px; }
+  .spacing-row .val { font-family: var(--font-mono); font-size: 11px; color: var(--text); }
+
+  .radius-row { display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--s-4); }
+  .radius-row .ritem {
+    background: var(--bg-elev-2); border: 1px solid var(--border-strong);
+    height: 100px; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: var(--s-3); position: relative; overflow: hidden;
+  }
+  .radius-row .ritem::before {
+    content: "";
+    position: absolute; top: -6px; right: -6px; width: 60%; height: 60%;
+    border: 1px solid var(--teal-500);
+    opacity: 0.35;
+  }
+  .radius-row .ritem.r-xs { border-radius: var(--r-xs); } .radius-row .r-xs::before { border-radius: 0 var(--r-xs) 0 0; }
+  .radius-row .ritem.r-sm { border-radius: var(--r-sm); } .radius-row .r-sm::before { border-radius: 0 var(--r-sm) 0 0; }
+  .radius-row .ritem.r-md { border-radius: var(--r-md); } .radius-row .r-md::before { border-radius: 0 var(--r-md) 0 0; }
+  .radius-row .ritem.r-lg { border-radius: var(--r-lg); } .radius-row .r-lg::before { border-radius: 0 var(--r-lg) 0 0; }
+  .radius-row .ritem.r-xl { border-radius: var(--r-xl); } .radius-row .r-xl::before { border-radius: 0 var(--r-xl) 0 0; }
+  .radius-row .ritem.r-pill { border-radius: var(--r-pill); }
+  .radius-row .ritem .rname { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
+  .radius-row .ritem .rval  { font-family: var(--font-mono); font-size: 11px; color: var(--text); }
+
+  /* Elevation */
+  .elev-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
+  .elev-card {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    height: 140px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: var(--s-4);
+  }
+  .elev-card.e1 { box-shadow: var(--shadow-1); }
+  .elev-card.e2 { box-shadow: var(--shadow-2); }
+  .elev-card.e3 { box-shadow: var(--shadow-3); }
+  .elev-card.eg { box-shadow: var(--shadow-glow); border-color: rgba(2,237,198,0.35); }
+  .elev-card .ename { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.14em; }
+  .elev-card .evar { font-family: var(--font-mono); font-size: 11px; color: var(--text); }
+
+  /* ---------- Components ---------- */
+  .comp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-4); }
+
+  .comp-card {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+  }
+  .comp-card .ctitle {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: var(--s-5);
+  }
+  .comp-card .ctitle h3 { font-size: 16px; }
+  .comp-card .ctitle .tag {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--text-subtle);
+  }
+  .comp-stage {
+    background: var(--bg);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--r-md);
+    padding: var(--s-5);
+    display: flex; flex-wrap: wrap; gap: var(--s-3);
+    align-items: center;
+  }
+  .comp-stage.col { flex-direction: column; align-items: stretch; gap: var(--s-3); }
+
+  /* Buttons */
+  .btn {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    padding: 12px 18px;
+    border-radius: var(--r-md);
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    transition: all .15s ease;
+    letter-spacing: -0.005em;
+  }
+  .btn svg { width: 14px; height: 14px; }
+  .btn-primary {
+    background: var(--teal-500); color: var(--primary-ink);
+    box-shadow: 0 0 0 0 var(--teal-glow);
+  }
+  .btn-primary:hover { background: var(--teal-400); box-shadow: 0 0 0 4px var(--teal-glow); }
+  .btn-primary:active { background: var(--teal-600); }
+  .btn-secondary {
+    background: var(--bg-elev-2); color: var(--text);
+    border-color: var(--border-strong);
+  }
+  .btn-secondary:hover { background: var(--bg-elev-3); border-color: #3a4340; }
+  .btn-ghost {
+    background: transparent; color: var(--text);
+    border-color: var(--border-strong);
+  }
+  .btn-ghost:hover { background: var(--bg-elev-2); }
+  .btn-link {
+    background: transparent; color: var(--teal-500); padding: 8px 4px;
+    border: none;
+  }
+  .btn-link:hover { color: var(--teal-400); }
+  .btn-danger { background: transparent; color: var(--danger); border-color: rgba(255,106,106,0.4); }
+  .btn-danger:hover { background: rgba(255,106,106,0.08); }
+  .btn-sm { padding: 8px 12px; font-size: 12px; border-radius: var(--r-sm); }
+  .btn-lg { padding: 16px 24px; font-size: 16px; }
+  .btn[disabled] { opacity: 0.4; cursor: not-allowed; }
+
+  /* Inputs */
+  .field { display: flex; flex-direction: column; gap: var(--s-2); width: 100%; }
+  .field label { font-size: 12px; color: var(--text-muted); letter-spacing: 0.02em; }
+  .input, .textarea, .select {
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    font-family: var(--font-sans); font-size: 14px;
+    padding: 10px 12px;
+    border-radius: var(--r-md);
+    transition: border-color .15s ease, box-shadow .15s ease;
+    width: 100%;
+  }
+  .input::placeholder, .textarea::placeholder { color: var(--text-subtle); }
+  .input:focus, .textarea:focus, .select:focus {
+    outline: none;
+    border-color: var(--teal-500);
+    box-shadow: 0 0 0 3px rgba(2,237,198,0.18);
+  }
+  .select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' fill='none' stroke='%238a9190' stroke-width='1.5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+  }
+  .textarea { resize: vertical; min-height: 80px; font-family: var(--font-sans); }
+
+  .checkbox, .radio {
+    display: inline-flex; align-items: center; gap: var(--s-2);
+    font-size: 14px; color: var(--text); cursor: pointer;
+  }
+  .checkbox input, .radio input { display: none; }
+  .checkbox .box, .radio .box {
+    width: 16px; height: 16px;
+    border: 1px solid var(--border-strong);
+    background: var(--bg-elev-2);
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .checkbox .box { border-radius: 3px; }
+  .radio .box { border-radius: 50%; }
+  .checkbox input:checked + .box {
+    background: var(--teal-500); border-color: var(--teal-500);
+  }
+  .checkbox input:checked + .box::after {
+    content: ""; width: 8px; height: 4px;
+    border: 2px solid var(--primary-ink); border-top: 0; border-right: 0;
+    transform: translateY(-1px) rotate(-45deg);
+  }
+  .radio input:checked + .box::after {
+    content: ""; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--teal-500);
+  }
+  .radio input:checked + .box { border-color: var(--teal-500); }
+
+  .toggle { display: inline-flex; align-items: center; gap: var(--s-3); cursor: pointer; }
+  .toggle input { display: none; }
+  .toggle .track {
+    width: 36px; height: 20px; border-radius: var(--r-pill);
+    background: var(--bg-elev-3); border: 1px solid var(--border-strong);
+    position: relative; transition: background .2s ease;
+  }
+  .toggle .track::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--ink-200); transition: all .2s ease;
+  }
+  .toggle input:checked + .track { background: var(--teal-500); border-color: var(--teal-500); }
+  .toggle input:checked + .track::after { left: 18px; background: var(--primary-ink); }
+
+  /* Badges */
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 4px 8px;
+    border-radius: var(--r-sm);
+    border: 1px solid transparent;
+  }
+  .badge.solid { background: var(--teal-500); color: var(--primary-ink); }
+  .badge.outline { border-color: var(--teal-500); color: var(--teal-500); }
+  .badge.neutral { background: var(--bg-elev-2); color: var(--text-muted); border-color: var(--border); }
+  .badge.success { background: rgba(61,220,151,0.12); color: var(--success); border-color: rgba(61,220,151,0.3); }
+  .badge.warning { background: rgba(245,196,81,0.1); color: var(--warning); border-color: rgba(245,196,81,0.3); }
+  .badge.danger  { background: rgba(255,106,106,0.1); color: var(--danger); border-color: rgba(255,106,106,0.3); }
+  .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+  /* Card example */
+  .demo-card {
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    padding: var(--s-5);
+    display: flex; flex-direction: column; gap: var(--s-4);
+    width: 100%;
+    box-shadow: var(--shadow-2);
+  }
+  .demo-card .row { display: flex; justify-content: space-between; align-items: center; }
+  .demo-card .title { font-size: 16px; font-weight: 500; }
+  .demo-card .sub { font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle); }
+  .demo-card .big { font-size: 40px; font-weight: 500; letter-spacing: -0.02em; line-height: 1; }
+  .demo-card .delta { font-family: var(--font-mono); font-size: 12px; color: var(--success); }
+  .demo-card .chart {
+    height: 40px;
+    background:
+      linear-gradient(180deg, rgba(2,237,198,0.24), transparent 80%);
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 40' preserveAspectRatio='none'><path d='M0 30 L20 26 L40 28 L60 18 L80 22 L100 14 L120 16 L140 8 L160 12 L180 6 L200 10 L200 40 L0 40 Z' fill='black'/></svg>") center / 100% 100% no-repeat;
+  }
+  .demo-card .spark {
+    position: relative; height: 40px;
+  }
+  .demo-card .spark svg { width: 100%; height: 100%; display: block; }
+
+  /* Focus ring demo */
+  .focus-row { display: flex; gap: var(--s-4); align-items: center; }
+
+  /* Alerts */
+  .alert {
+    display: flex; gap: var(--s-3); padding: var(--s-4);
+    border-radius: var(--r-md); border: 1px solid var(--border-strong);
+    background: var(--bg-elev-2); align-items: flex-start;
+  }
+  .alert .icon {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--teal-500); color: var(--primary-ink);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .alert .body .t { font-weight: 500; font-size: 14px; }
+  .alert .body .d { color: var(--text-muted); font-size: 13px; margin-top: 2px; }
+  .alert.danger { border-color: rgba(255,106,106,0.3); background: rgba(255,106,106,0.06); }
+  .alert.danger .icon { background: var(--danger); color: var(--ink-900); }
+  .alert.warning { border-color: rgba(245,196,81,0.3); background: rgba(245,196,81,0.06); }
+  .alert.warning .icon { background: var(--warning); color: var(--ink-900); }
+
+  /* Iconography placeholder row */
+  .icon-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: var(--s-3); }
+  .icon-cell {
+    aspect-ratio: 1;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted);
+    position: relative;
+  }
+  .icon-cell svg { width: 20px; height: 20px; }
+
+  /* Footer */
+  .footer {
+    margin-top: var(--s-9);
+    padding-top: var(--s-6);
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .footer .mark { display: flex; align-items: center; gap: var(--s-2); color: var(--text); text-transform: none; letter-spacing: 0.06em; }
+  .footer .mark svg { height: 16px; color: var(--teal-500); }
+
+  /* Helpers */
+  .mono { font-family: var(--font-mono); }
+  .muted { color: var(--text-muted); }
+  .row { display: flex; gap: var(--s-3); align-items: center; flex-wrap: wrap; }
+
+  /* ============================================================
+     06 — PROJECT CARDS
+     ============================================================ */
+  .pcards { display: grid; gap: var(--s-4); }
+
+  /* --- Hero card (full-width, image-led, parallax) --- */
+  .pcard-hero {
+    position: relative;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg-elev-1);
+    isolation: isolate;
+    cursor: pointer;
+  }
+  .pcard-hero .media {
+    height: 360px;
+    background:
+      radial-gradient(800px 300px at 30% 30%, rgba(2,237,198,0.18), transparent 60%),
+      conic-gradient(from 200deg at 70% 60%, #1a1f1e, #262c2b, #1a1f1e, #02edc6 80%, #1a1f1e),
+      var(--bg-elev-2);
+    position: relative;
+    transition: transform .8s cubic-bezier(.2,.6,.2,1);
+  }
+  .pcard-hero .media::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(45deg, transparent 0 18px, rgba(255,255,255,0.02) 18px 19px),
+      linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.7));
+  }
+  .pcard-hero:hover .media { transform: scale(1.04); }
+  .pcard-hero .body {
+    position: absolute; inset: auto 0 0 0;
+    padding: var(--s-6);
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: var(--s-5);
+  }
+  .pcard-hero .body .left { display: flex; flex-direction: column; gap: var(--s-3); max-width: 60%; }
+  .pcard-hero .body .meta { font-family: var(--font-mono); font-size: 11px; color: var(--teal-500); letter-spacing: 0.18em; text-transform: uppercase; }
+  .pcard-hero .body h3.title { font-size: 36px; font-weight: 500; letter-spacing: -0.02em; }
+  .pcard-hero .body .desc { color: var(--ink-200); font-size: 14px; }
+  .pcard-hero .body .right {
+    display: flex; flex-direction: column; gap: var(--s-2); align-items: flex-end;
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-muted);
+  }
+  .pcard-hero .arrow {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--teal-500); color: var(--primary-ink);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .35s cubic-bezier(.2,.6,.2,1);
+  }
+  .pcard-hero:hover .arrow { transform: rotate(-45deg); }
+  .pcard-hero .corner-tag {
+    position: absolute; top: var(--s-4); left: var(--s-4);
+    background: rgba(11,14,13,0.6); backdrop-filter: blur(8px);
+    border: 1px solid var(--border-strong);
+    color: var(--text); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 6px 10px; border-radius: var(--r-sm);
+  }
+  .pcard-hero .scan {
+    position: absolute; top: 0; bottom: 0; left: -40%; width: 40%;
+    background: linear-gradient(105deg, transparent, rgba(2,237,198,0.18), transparent);
+    transform: skewX(-20deg);
+    transition: left .8s ease;
+    pointer-events: none;
+  }
+  .pcard-hero:hover .scan { left: 110%; }
+
+  /* --- Standard card (3-up grid) --- */
+  .pcard-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-4); }
+  .pcard {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color .2s ease, transform .35s cubic-bezier(.2,.6,.2,1), box-shadow .35s ease;
+    display: flex; flex-direction: column;
+    position: relative;
+  }
+  .pcard:hover { transform: translateY(-3px); border-color: var(--border-strong); box-shadow: var(--shadow-2); }
+  .pcard .thumb {
+    aspect-ratio: 16/10;
+    background: var(--bg-elev-2);
+    position: relative; overflow: hidden;
+  }
+  .pcard .thumb::before, .pcard .thumb::after {
+    content: ""; position: absolute; inset: 0;
+  }
+  .pcard.thumb-a .thumb { background: linear-gradient(135deg, #02edc6 0%, #009c82 50%, #00261f 100%); }
+  .pcard.thumb-b .thumb { background:
+      radial-gradient(circle at 30% 30%, #4df3d4 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, #009c82 0%, transparent 60%),
+      #0b0e0d; }
+  .pcard.thumb-c .thumb { background:
+      conic-gradient(from 90deg at 50% 50%, #1a1f1e, #02edc6, #1a1f1e, #009c82, #1a1f1e); }
+  .pcard.thumb-d .thumb { background:
+      repeating-linear-gradient(45deg, #0b0e0d 0 24px, #121615 24px 48px),
+      var(--bg); }
+  .pcard.thumb-e .thumb { background:
+      linear-gradient(180deg, transparent 60%, rgba(2,237,198,0.4)),
+      radial-gradient(800px 200px at 50% 100%, rgba(2,237,198,0.5), transparent 70%),
+      #0b0e0d; }
+  .pcard.thumb-f .thumb { background:
+      linear-gradient(180deg, #00c9a8, #007261); }
+  .pcard .thumb .overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: rgba(255,255,255,0.85);
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.4));
+  }
+  .pcard .thumb .stat-corner {
+    position: absolute; top: var(--s-3); right: var(--s-3);
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    background: rgba(11,14,13,0.65); backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 4px 8px; border-radius: var(--r-sm);
+    color: var(--text);
+  }
+  .pcard .pbody {
+    padding: var(--s-5);
+    display: flex; flex-direction: column; gap: var(--s-3);
+  }
+  .pcard .pmeta {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .pcard .pmeta .yr { color: var(--teal-500); }
+  .pcard .ptitle { font-size: 18px; font-weight: 500; letter-spacing: -0.01em; }
+  .pcard .pdesc { color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+  .pcard .pchips { display: flex; flex-wrap: wrap; gap: 6px; padding-top: var(--s-2); border-top: 1px solid var(--border); }
+  .pcard .chip {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em;
+    padding: 3px 8px; border-radius: var(--r-sm);
+    background: var(--bg-elev-2); color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+
+  /* --- Compact list card --- */
+  .pcard-list {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px 80px 40px;
+    gap: var(--s-5);
+    align-items: center;
+    padding: var(--s-4);
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: background .2s ease, border-color .2s ease;
+  }
+  .pcard-list:hover { background: var(--bg-elev-2); border-color: var(--border-strong); }
+  .pcard-list:hover .lthumb { box-shadow: 0 0 0 2px var(--teal-500); }
+  .pcard-list .lthumb {
+    aspect-ratio: 16/10;
+    border-radius: var(--r-sm);
+    background: linear-gradient(135deg, #02edc6, #007261);
+    transition: box-shadow .2s ease;
+  }
+  .pcard-list .lthumb.b { background: conic-gradient(from 90deg, #02edc6, #1a1f1e, #009c82, #1a1f1e); }
+  .pcard-list .lthumb.c { background: radial-gradient(circle at 30% 30%, #4df3d4, transparent 60%), #0b0e0d; }
+  .pcard-list .lmain { display: flex; flex-direction: column; gap: 4px; }
+  .pcard-list .ltitle { font-size: 16px; font-weight: 500; }
+  .pcard-list .lsub { font-size: 13px; color: var(--text-muted); }
+  .pcard-list .lstack { display: flex; flex-wrap: wrap; gap: 4px; }
+  .pcard-list .lstack .chip { font-family: var(--font-mono); font-size: 10px; padding: 2px 6px; background: var(--bg-elev-2); border: 1px solid var(--border); border-radius: var(--r-xs); color: var(--text-muted); }
+  .pcard-list .lyr { font-family: var(--font-mono); font-size: 12px; color: var(--text-subtle); text-align: right; }
+  .pcard-list .larr { color: var(--text-subtle); transition: transform .2s ease, color .2s ease; }
+  .pcard-list:hover .larr { color: var(--teal-500); transform: translateX(4px); }
+
+  /* --- Index card (numbered, editorial) --- */
+  .pcard-index {
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--s-5);
+    align-items: start;
+    transition: border-color .2s ease, background .2s ease;
+    position: relative; overflow: hidden;
+  }
+  .pcard-index:hover { border-color: var(--teal-500); background: var(--bg-elev-2); }
+  .pcard-index .num {
+    font-family: var(--font-mono); font-size: 12px; color: var(--teal-500); letter-spacing: 0.18em;
+    padding-top: 4px;
+  }
+  .pcard-index .ititle { font-size: 28px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.1; margin-bottom: var(--s-3); }
+  .pcard-index .imeta {
+    display: flex; gap: var(--s-5); flex-wrap: wrap;
+    font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-top: var(--s-4);
+    padding-top: var(--s-4); border-top: 1px solid var(--border);
+  }
+  .pcard-index .imeta b { color: var(--text); font-weight: 500; }
+  .pcard-index .marquee {
+    position: absolute; right: -20px; top: 50%; transform: translateY(-50%);
+    font-size: 80px; font-weight: 500; letter-spacing: -0.04em;
+    color: rgba(2,237,198,0.05);
+    pointer-events: none;
+  }
+
+  /* --- Cinema card (vertical, 9:16, image takeover) --- */
+  .pcard-cinema {
+    aspect-ratio: 3/4;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border);
+  }
+  .pcard-cinema .cmedia {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(2,237,198,0.4), transparent 50%),
+      linear-gradient(180deg, #007261 0%, #0b0e0d 70%);
+    transition: transform .8s cubic-bezier(.2,.6,.2,1);
+  }
+  .pcard-cinema:hover .cmedia { transform: scale(1.06); }
+  .pcard-cinema .cmedia.b { background:
+      conic-gradient(from 270deg at 50% 50%, #1a1f1e, #02edc6 30%, #1a1f1e, #009c82 70%, #1a1f1e); }
+  .pcard-cinema .cmedia.c { background:
+      linear-gradient(135deg, #4df3d4 0%, #00c9a8 50%, #00261f 100%); }
+  .pcard-cinema .cbody {
+    position: absolute; inset: auto 0 0 0; padding: var(--s-5);
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,0.85));
+    color: var(--text);
+  }
+  .pcard-cinema .cmeta {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em;
+    color: var(--teal-500); text-transform: uppercase; margin-bottom: var(--s-2);
+  }
+  .pcard-cinema .ctitle { font-size: 22px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; }
+  .pcard-cinema .cbottom {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: var(--s-4);
+    font-family: var(--font-mono); font-size: 11px; color: var(--ink-200);
+  }
+  .pcard-cinema .play {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--teal-500); color: var(--teal-500);
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s ease, color .2s ease;
+  }
+  .pcard-cinema:hover .play { background: var(--teal-500); color: var(--primary-ink); }
+  .pcard-cinema .ribbon {
+    position: absolute; top: var(--s-4); right: var(--s-4);
+    background: var(--teal-500); color: var(--primary-ink);
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 4px 8px; border-radius: var(--r-sm);
+  }
+
+  /* ============================================================
+     07 — ADVANCED COMPONENTS & MICRO-INTERACTIONS
+     ============================================================ */
+
+  /* Tabs */
+  .tabs {
+    display: inline-flex;
+    background: var(--bg-elev-2); border: 1px solid var(--border-strong);
+    border-radius: var(--r-md); padding: 3px;
+    position: relative;
+  }
+  .tabs button {
+    font-family: var(--font-sans); font-size: 13px; color: var(--text-muted);
+    padding: 8px 14px; border: none; background: transparent; cursor: pointer;
+    border-radius: var(--r-sm);
+    transition: color .2s ease;
+    position: relative; z-index: 1;
+  }
+  .tabs button.active { color: var(--primary-ink); }
+  .tabs .tab-indicator {
+    position: absolute; top: 3px; bottom: 3px;
+    background: var(--teal-500);
+    border-radius: var(--r-sm);
+    transition: left .35s cubic-bezier(.2,.6,.2,1), width .35s cubic-bezier(.2,.6,.2,1);
+    z-index: 0;
+  }
+
+  /* Avatars */
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 2px solid var(--bg);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 12px; color: var(--text);
+    background: var(--bg-elev-3);
+  }
+  .avatar.a1 { background: linear-gradient(135deg, #02edc6, #007261); color: var(--primary-ink); }
+  .avatar.a2 { background: linear-gradient(135deg, #6ec1ff, #0b3a5c); }
+  .avatar.a3 { background: linear-gradient(135deg, #f5c451, #5c4400); }
+  .avatar.a4 { background: linear-gradient(135deg, #ff6a6a, #5c0000); }
+  .avatar.a5 { background: linear-gradient(135deg, #b8bebd, #3b4241); }
+  .avatar-group { display: inline-flex; }
+  .avatar-group .avatar + .avatar { margin-left: -10px; transition: margin .2s ease; }
+  .avatar-group:hover .avatar + .avatar { margin-left: 4px; }
+
+  /* Tooltip */
+  .tooltip-wrap { position: relative; display: inline-block; }
+  .tooltip {
+    position: absolute; bottom: calc(100% + 8px); left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: var(--ink-50); color: var(--ink-900);
+    font-size: 12px; padding: 6px 10px; border-radius: var(--r-sm);
+    white-space: nowrap;
+    opacity: 0; pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease;
+    box-shadow: var(--shadow-2);
+  }
+  .tooltip::after {
+    content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+    border: 4px solid transparent; border-top-color: var(--ink-50);
+  }
+  .tooltip-wrap:hover .tooltip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* Modal */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(6,8,7,0.7); backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 1000;
+    opacity: 0; transition: opacity .2s ease;
+  }
+  .modal-backdrop.open { display: flex; opacity: 1; }
+  .modal {
+    width: 480px; max-width: calc(100vw - 48px);
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-3);
+    transform: translateY(8px) scale(.98);
+    transition: transform .25s cubic-bezier(.2,.6,.2,1);
+  }
+  .modal-backdrop.open .modal { transform: translateY(0) scale(1); }
+  .modal .mhead {
+    padding: var(--s-5) var(--s-5) var(--s-3);
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+  .modal .mhead h3 { font-size: 18px; font-weight: 500; }
+  .modal .mclose {
+    background: none; border: none; cursor: pointer;
+    width: 28px; height: 28px; border-radius: var(--r-sm);
+    color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal .mclose:hover { background: var(--bg-elev-2); color: var(--text); }
+  .modal .mbody { padding: var(--s-5); color: var(--text-muted); font-size: 14px; line-height: 1.6; }
+  .modal .mfoot {
+    padding: var(--s-4) var(--s-5);
+    display: flex; justify-content: flex-end; gap: var(--s-3);
+    border-top: 1px solid var(--border);
+  }
+
+  /* Toast */
+  .toast-stack {
+    position: fixed; bottom: var(--s-5); right: var(--s-5);
+    display: flex; flex-direction: column; gap: var(--s-2);
+    z-index: 999; pointer-events: none;
+  }
+  .toast {
+    pointer-events: auto;
+    display: flex; align-items: center; gap: var(--s-3);
+    background: var(--bg-elev-1); border: 1px solid var(--border-strong);
+    border-radius: var(--r-md); padding: var(--s-3) var(--s-4);
+    color: var(--text); font-size: 13px;
+    box-shadow: var(--shadow-3);
+    min-width: 280px;
+    animation: toastIn .3s cubic-bezier(.2,.6,.2,1);
+  }
+  .toast .ticon {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--teal-500); color: var(--primary-ink);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 12px; font-weight: 700; flex-shrink: 0;
+  }
+  .toast.removing { animation: toastOut .25s ease forwards; }
+  @keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes toastOut { to { opacity: 0; transform: translateX(20px); } }
+
+  /* Stepper */
+  .stepper { display: flex; align-items: center; gap: 0; }
+  .stepper .step { display: flex; align-items: center; gap: var(--s-2); }
+  .stepper .step .dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--bg-elev-2); border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 12px;
+    transition: all .2s ease;
+  }
+  .stepper .step .lbl { font-size: 13px; color: var(--text-muted); }
+  .stepper .step.done .dot { background: var(--teal-500); color: var(--primary-ink); border-color: var(--teal-500); }
+  .stepper .step.active .dot { background: transparent; color: var(--teal-500); border-color: var(--teal-500); box-shadow: 0 0 0 4px rgba(2,237,198,0.18); }
+  .stepper .step.active .lbl { color: var(--text); font-weight: 500; }
+  .stepper .step.done .lbl { color: var(--text); }
+  .stepper .line { flex: 1; height: 1px; background: var(--border-strong); margin: 0 var(--s-3); min-width: 24px; }
+  .stepper .step.done + .line { background: var(--teal-500); }
+
+  /* Skeleton */
+  .skeleton {
+    background: linear-gradient(90deg, var(--bg-elev-2) 0%, var(--bg-elev-3) 50%, var(--bg-elev-2) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 1.6s infinite;
+    border-radius: var(--r-sm);
+  }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  /* Empty state */
+  .empty {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: var(--s-7); gap: var(--s-3); text-align: center;
+    border: 1px dashed var(--border-strong); border-radius: var(--r-lg);
+    background: var(--bg);
+  }
+  .empty .eicon {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: radial-gradient(circle at 50% 40%, rgba(2,237,198,0.2), transparent 60%);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--teal-500);
+    margin-bottom: var(--s-2);
+  }
+  .empty .et { font-size: 16px; font-weight: 500; }
+  .empty .ed { font-size: 13px; color: var(--text-muted); max-width: 32ch; }
+
+  /* Command palette */
+  .cmdk {
+    background: var(--bg-elev-1); border: 1px solid var(--border-strong);
+    border-radius: var(--r-md); overflow: hidden;
+    box-shadow: var(--shadow-3);
+    width: 100%;
+  }
+  .cmdk .cmdk-input {
+    display: flex; align-items: center; gap: var(--s-3);
+    padding: var(--s-4); border-bottom: 1px solid var(--border);
+  }
+  .cmdk .cmdk-input svg { color: var(--text-subtle); width: 16px; height: 16px; flex-shrink: 0; }
+  .cmdk .cmdk-input input {
+    background: transparent; border: none; color: var(--text); flex: 1;
+    font-family: var(--font-sans); font-size: 14px; outline: none;
+  }
+  .cmdk .kbd {
+    font-family: var(--font-mono); font-size: 10px;
+    padding: 3px 6px; border-radius: var(--r-xs);
+    background: var(--bg-elev-2); border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+  }
+  .cmdk .cmdk-list { padding: var(--s-2); display: flex; flex-direction: column; }
+  .cmdk .cmdk-section { padding: var(--s-2) var(--s-3) 4px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-subtle); }
+  .cmdk .cmdk-item {
+    display: flex; align-items: center; gap: var(--s-3);
+    padding: var(--s-2) var(--s-3); border-radius: var(--r-sm);
+    color: var(--text); font-size: 13px; cursor: pointer;
+  }
+  .cmdk .cmdk-item:hover, .cmdk .cmdk-item.active {
+    background: var(--bg-elev-2);
+  }
+  .cmdk .cmdk-item.active::after {
+    content: "↵"; margin-left: auto; color: var(--teal-500); font-family: var(--font-mono);
+  }
+  .cmdk .cmdk-item .ic { width: 14px; height: 14px; color: var(--text-muted); }
+
+  /* Magnetic button */
+  .magnetic {
+    position: relative;
+    padding: 14px 28px;
+    background: var(--teal-500); color: var(--primary-ink);
+    border: none; border-radius: var(--r-pill); cursor: pointer;
+    font-family: var(--font-sans); font-weight: 500; font-size: 14px;
+    transition: transform .2s cubic-bezier(.2,.6,.2,1);
+    overflow: hidden;
+  }
+  .magnetic::before {
+    content: ""; position: absolute; top: 50%; left: 50%;
+    width: 0; height: 0;
+    background: var(--ink-900);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width .4s ease, height .4s ease;
+    z-index: 0;
+  }
+  .magnetic:hover::before { width: 360px; height: 360px; }
+  .magnetic span { position: relative; z-index: 1; transition: color .3s ease; }
+  .magnetic:hover span { color: var(--teal-500); }
+
+  /* Cursor follow card */
+  .glow-card {
+    position: relative;
+    background: var(--bg-elev-1);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: var(--s-6);
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .glow-card::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgba(2,237,198,0.18), transparent 40%);
+    opacity: 0; transition: opacity .3s ease;
+    pointer-events: none;
+  }
+  .glow-card:hover::before { opacity: 1; }
+  .glow-card .gtitle { font-size: 16px; font-weight: 500; }
+  .glow-card .gdesc { color: var(--text-muted); font-size: 13px; margin-top: var(--s-2); }
+
+  /* Animated counter */
+  .counter-card { display: flex; flex-direction: column; gap: var(--s-2); }
+  .counter-card .cnum { font-size: 48px; font-weight: 500; letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .counter-card .clbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.14em; color: var(--text-subtle); text-transform: uppercase; }
+
+  /* Range slider */
+  .range-row { display: flex; align-items: center; gap: var(--s-3); width: 100%; }
+  .range-row .rslider { flex: 1; -webkit-appearance: none; appearance: none; height: 4px; background: var(--bg-elev-3); border-radius: var(--r-pill); outline: none; }
+  .range-row .rslider::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--teal-500); cursor: pointer; box-shadow: 0 0 0 4px rgba(2,237,198,0.18); transition: transform .15s ease; }
+  .range-row .rslider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  .range-row .rslider::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--teal-500); border: none; box-shadow: 0 0 0 4px rgba(2,237,198,0.18); }
+  .range-row .rval { font-family: var(--font-mono); font-size: 12px; color: var(--text); width: 36px; text-align: right; }
+
+  /* Tag input */
+  .taginput {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 8px;
+    background: var(--bg-elev-2); border: 1px solid var(--border-strong);
+    border-radius: var(--r-md);
+    align-items: center;
+  }
+  .taginput .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 8px; border-radius: var(--r-sm);
+    background: var(--bg-elev-3); color: var(--text);
+    font-size: 12px;
+  }
+  .taginput .tag .x { cursor: pointer; color: var(--text-subtle); transition: color .15s ease; }
+  .taginput .tag .x:hover { color: var(--danger); }
+  .taginput input {
+    background: transparent; border: none; color: var(--text);
+    flex: 1; min-width: 60px; outline: none; font-family: var(--font-sans); font-size: 13px;
+  }
+
+</style>
+</head>
+<body style="cursor: crosshair;" data-cc-id="cc-1">
+<div class="page" data-cc-id="cc-2">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="brand">
+      <img src="assets/mark.webp" alt="Morphed mark" style="height:32px;width:32px;object-fit:contain;">
+      <div class="divider"></div>
+      <span class="label">Design System</span>
+    </div>
+    <div class="meta">
+      <span class="dot"></span>
+      <span>v0.1 · DARK</span>
+      <span>·</span>
+      <span>2026.04.19</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Foundations · Dark Theme</div>
+      <h1 style="margin-top: var(--s-4);">A system for building<br>Morphed, end-to-end.</h1>
+      <p class="lead">Tokens, type and components in one place. Dark-first, built around Space Grotesk and a signal teal — expanding to light theme, marketing and product UI from this foundation.</p>
+      <div class="kv">
+        <div><b>Theme</b> &nbsp; Dark (primary)</div>
+        <div><b>Typeface</b> &nbsp; Space Grotesk · JetBrains Mono</div>
+        <div><b>Accent</b> &nbsp; #02EDC6</div>
+        <div><b>Base unit</b> &nbsp; 4px</div>
+      </div>
+    </div>
+    <div class="logo-tile hero-tile" style="min-height: 260px;">
+      <div class="logo-stage">
+        <img src="assets/logo-horizontal.webp" style="height: 64px; width: auto;" alt="Morphed">
+      </div>
+      <div class="caption">
+        <b>Morphed / horizontal</b>
+        <span>chrome mark · WHT wordmark</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 01 BRAND -->
+  <section class="block" data-cc-id="cc-5">
+    <div class="section-head" data-cc-id="cc-3">
+      <div class="title" data-cc-id="cc-10">
+        <span class="num" data-cc-id="cc-4">01 — Brand</span>
+        <h2 data-cc-id="cc-9">Logo &amp; mark</h2>
+      </div>
+      <p class="desc" data-cc-id="cc-23">Three variants. The horizontal wordmark is default for dark surfaces; the M-mark alone works as a small product badge down to 16px.</p>
+    </div>
+
+    <div class="brand-row" data-cc-id="cc-17">
+      <div class="logo-tile" data-cc-id="cc-6">
+        <div class="logo-stage" data-cc-id="cc-7">
+          <img src="assets/logo-horizontal.webp" style="height: 64px;" alt="Morphed horizontal" data-cc-id="cc-8">
+        </div>
+        <div class="caption" data-cc-id="cc-11">
+          <b data-cc-id="cc-12">Horizontal lockup</b>
+          <span>primary · on dark</span>
+        </div>
+      </div>
+      <div class="logo-tile" data-cc-id="cc-16">
+        <div class="logo-stage" data-cc-id="cc-13">
+          <img src="assets/logo-stacked.webp" style="height: 160px;" alt="Morphed stacked" data-cc-id="cc-14">
+        </div>
+        <div class="caption">
+          <b>Stacked lockup</b>
+          <span data-cc-id="cc-15">vertical · key art</span>
+        </div>
+      </div>
+      <div class="logo-tile" data-cc-id="cc-18">
+        <div class="logo-stage" data-cc-id="cc-21">
+          <img src="assets/mark.webp" style="height: 120px;" alt="Morphed mark" data-cc-id="cc-22">
+        </div>
+        <div class="caption">
+          <b data-cc-id="cc-20">Mark</b>
+          <span data-cc-id="cc-19" style="text-align: right;">app icon<br>&nbsp;favicon</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand-row" style="margin-top: var(--s-4);">
+      <div class="logo-tile inverse">
+        <div class="logo-stage">
+          <img src="assets/logo-horizontal-light.webp" style="height: 64px;" alt="Morphed horizontal on light">
+        </div>
+        <div class="caption">
+          <b>Horizontal · light</b>
+          <span>BLK wordmark</span>
+        </div>
+      </div>
+      <div class="logo-tile inverse">
+        <div class="logo-stage">
+          <img src="assets/logo-stacked-light.webp" style="height: 160px;" alt="Morphed stacked on light">
+        </div>
+        <div class="caption">
+          <b>Stacked · light</b>
+          <span>BLK wordmark</span>
+        </div>
+      </div>
+      <div class="logo-tile inverse">
+        <div class="logo-stage">
+          <img src="assets/mark-light.webp" style="height: 120px;" alt="Morphed mark on light">
+        </div>
+        <div class="caption">
+          <b style="" data-cc-id="cc-25">Mark · light</b>
+          <span style="text-align: right;" data-cc-id="cc-24">App Icon Favicon</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top: var(--s-4); display: grid; grid-template-columns: 1.1fr 1fr 1fr; gap: var(--s-6); align-items: stretch;">
+      <div>
+        <h3 style="font-size: 16px;">Clearspace &amp; min sizes</h3>
+        <p class="muted" style="margin-top: var(--s-2); font-size: 14px;">Reserve space equal to ¼ the height of the mark on all sides. Never recolor the chrome mark — it's a 3D rendered asset. For monochrome contexts, request a flat alternate.</p>
+        <div class="kv" style="grid-template-columns: 1fr 1fr 1fr; margin-top: var(--s-4); padding-top:var(--s-4); border-top:1px solid var(--border); font-family:var(--font-mono); font-size: 11px;">
+          <div><b>Lockup min</b><br>120px W</div>
+          <div><b>Mark min</b><br>24px</div>
+          <div><b>Clearspace</b><br>x = ¼ mark</div>
+        </div>
+      </div>
+      <div style="display:flex; justify-content:center; align-items:center;">
+        <div class="clearspace">
+          <div class="frame"></div>
+          <span class="tick t">x</span>
+          <span class="tick r">x</span>
+          <div class="mark-inner">
+            <img src="assets/mark.webp" style="height:80px;width:auto;" alt="clearspace">
+          </div>
+        </div>
+      </div>
+      <div class="favicon-strip">
+        <div class="f-row">
+          <div class="fav fav-64"><img src="assets/mark.webp" alt=""></div>
+          <div class="fav fav-32"><img src="assets/mark.webp" alt=""></div>
+          <div class="fav fav-24"><img src="assets/mark.webp" alt=""></div>
+          <div class="fav fav-16"><img src="assets/mark.webp" alt=""></div>
+        </div>
+        <div class="f-labels">
+          <span>64</span><span>32</span><span>24</span><span>16</span>
+        </div>
+        <div class="f-caption">Favicon · app icon scales</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 COLOR -->
+  <section class="block">
+    <div class="section-head">
+      <div class="title">
+        <span class="num">02 — Color</span>
+        <h2>Palette &amp; semantics</h2>
+      </div>
+      <p class="desc">One signal color. Neutrals carry a hint of the teal hue so the stack feels cohesive. Every accent use should feel earned.</p>
+    </div>
+
+    <!-- Primary scale -->
+    <div class="panel" style="padding: var(--s-5);">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom: var(--s-4);">
+        <h3 style="font-size: 14px;">Primary · Teal</h3>
+        <span class="mono muted" style="font-size: 11px;">base #02EDC6 @ 500</span>
+      </div>
+      <div class="color-scale">
+        <div class="swatch light" style="background:#eafffb"><span class="name">50</span><span class="hex">#EAFFFB</span></div>
+        <div class="swatch light" style="background:#c6fef1"><span class="name">100</span><span class="hex">#C6FEF1</span></div>
+        <div class="swatch light" style="background:#9afae1"><span class="name">200</span><span class="hex">#9AFAE1</span></div>
+        <div class="swatch light" style="background:#6ef5d1"><span class="name">300</span><span class="hex">#6EF5D1</span></div>
+        <div class="swatch light" style="background:#3ff2cb"><span class="name">400</span><span class="hex">#3FF2CB</span></div>
+        <div class="swatch light" style="background:#02edc6"><span class="name">500</span><span class="hex">#02EDC6</span></div>
+        <div class="swatch dark" style="background:#00c9a8"><span class="name">600</span><span class="hex">#00C9A8</span></div>
+        <div class="swatch dark" style="background:#009c82"><span class="name">700</span><span class="hex">#009C82</span></div>
+        <div class="swatch dark" style="background:#007261"><span class="name">800</span><span class="hex">#007261</span></div>
+        <div class="swatch dark" style="background:#004e42"><span class="name">900</span><span class="hex">#004E42</span></div>
+        <div class="swatch dark" style="background:#002a24"><span class="name">950</span><span class="hex">#002A24</span></div>
+      </div>
+    </div>
+
+    <!-- Neutrals -->
+    <div class="panel" style="padding: var(--s-5); margin-top: var(--s-4);">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom: var(--s-4);">
+        <h3 style="font-size: 14px;">Neutrals · Ink</h3>
+        <span class="mono muted" style="font-size: 11px;">cool, hint of teal hue</span>
+      </div>
+      <div class="color-scale">
+        <div class="swatch light" style="background:#ffffff"><span class="name">0</span><span class="hex">#FFFFFF</span></div>
+        <div class="swatch light" style="background:#f4f6f6"><span class="name">50</span><span class="hex">#F4F6F6</span></div>
+        <div class="swatch light" style="background:#dfe3e3"><span class="name">100</span><span class="hex">#DFE3E3</span></div>
+        <div class="swatch light" style="background:#b8bebd"><span class="name">200</span><span class="hex">#B8BEBD</span></div>
+        <div class="swatch dark" style="background:#8a9190"><span class="name">300</span><span class="hex">#8A9190</span></div>
+        <div class="swatch dark" style="background:#5e6564"><span class="name">400</span><span class="hex">#5E6564</span></div>
+        <div class="swatch dark" style="background:#3b4241"><span class="name">500</span><span class="hex">#3B4241</span></div>
+        <div class="swatch dark" style="background:#262c2b"><span class="name">600</span><span class="hex">#262C2B</span></div>
+        <div class="swatch dark" style="background:#1a1f1e"><span class="name">700</span><span class="hex">#1A1F1E</span></div>
+        <div class="swatch dark" style="background:#121615"><span class="name">800</span><span class="hex">#121615</span></div>
+        <div class="swatch dark" style="background:#0b0e0d"><span class="name">900</span><span class="hex">#0B0E0D</span></div>
+      </div>
+    </div>
+
+    <!-- Semantic callouts -->
+    <div class="color-callouts">
+      <div class="callout">
+        <div class="chip" style="background: var(--bg);"></div>
+        <div class="meta"><span class="k">Surface · base</span><span class="v">--bg</span></div>
+        <span class="use">Page background. Darkest neutral.</span>
+      </div>
+      <div class="callout">
+        <div class="chip" style="background: var(--bg-elev-1);"></div>
+        <div class="meta"><span class="k">Surface · 1</span><span class="v">--bg-elev-1</span></div>
+        <span class="use">Panels, cards, nav.</span>
+      </div>
+      <div class="callout">
+        <div class="chip" style="background: var(--bg-elev-2);"></div>
+        <div class="meta"><span class="k">Surface · 2</span><span class="v">--bg-elev-2</span></div>
+        <span class="use">Inputs, hover fills, chips.</span>
+      </div>
+      <div class="callout">
+        <div class="chip" style="background: var(--teal-500);"></div>
+        <div class="meta"><span class="k">Primary</span><span class="v">--primary</span></div>
+        <span class="use">CTAs, focus, status signal.</span>
+      </div>
+      <div class="callout">
+        <div class="chip" style="background: var(--success);"></div>
+        <div class="meta"><span class="k">Success</span><span class="v">--success</span></div>
+        <span class="use">Positive state, confirm.</span>
+      </div>
+      <div class="callout">
+        <div class="chip" style="background: var(--warning);"></div>
+        <div class="meta"><span class="k">Warning</span><span class="v">--warning</span></div>
+        <span class="use">Needs attention.</span>
+      </div>
+      <div class="callout">
+        <div class="chip" style="background: var(--danger);"></div>
+        <div class="meta"><span class="k">Danger</span><span class="v">--danger</span></div>
+        <span class="use">Destructive, errors.</span>
+      </div>
+      <div class="callout">
+        <div class="chip" style="background: var(--info);"></div>
+        <div class="meta"><span class="k">Info</span><span class="v">--info</span></div>
+        <span class="use">Neutral information.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 TYPE -->
+  <section class="block">
+    <div class="section-head">
+      <div class="title">
+        <span class="num">03 — Typography</span>
+        <h2>Space Grotesk, with JetBrains Mono</h2>
+      </div>
+      <p class="desc">Display and body in Space Grotesk. Mono for values, metadata, and micro-labels — never long copy.</p>
+    </div>
+
+    <div class="type-pair">
+      <div class="font-card">
+        <div class="glyph">Ag</div>
+        <div class="meta">Primary · Sans</div>
+        <h3>Space Grotesk</h3>
+        <p class="muted" style="font-size: 13px; margin-top: var(--s-2);">Geometric sans with subtle humanist character. Used for everything from hero display to small UI labels.</p>
+        <div class="weights" style="margin-top: var(--s-5);">
+          <span style="font-weight:300">300 Light</span>
+          <span style="font-weight:400">400 Regular</span>
+          <span style="font-weight:500">500 Medium</span>
+          <span style="font-weight:600">600 Semibold</span>
+          <span style="font-weight:700">700 Bold</span>
+        </div>
+      </div>
+      <div class="font-card mono">
+        <div class="glyph">Ag</div>
+        <div class="meta">Secondary · Mono</div>
+        <h3>JetBrains Mono</h3>
+        <p class="muted" style="font-size: 13px; margin-top: var(--s-2);">Tabular numerics, code, token values, timestamps, navigation labels. Uppercased with 0.14–0.2em tracking.</p>
+        <div class="weights" style="margin-top: var(--s-5); font-family: var(--font-mono); font-size: 14px;">
+          <span style="font-weight:400">400</span>
+          <span style="font-weight:500">500</span>
+          <span>0 1 2 3 4 5 6 7 8 9</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top: var(--s-4);">
+      <div class="type-row">
+        <span class="label">Display</span>
+        <span class="sample" style="font-size: 72px; font-weight: 500; line-height: 1;">Form follows force.</span>
+        <span class="specs">72 / 72<br>weight 500<br>-0.03em</span>
+      </div>
+      <div class="type-row">
+        <span class="label">Title 1</span>
+        <span class="sample" style="font-size: 48px; font-weight: 500; line-height: 1.1;">Interfaces that bend.</span>
+        <span class="specs">48 / 52<br>weight 500<br>-0.02em</span>
+      </div>
+      <div class="type-row">
+        <span class="label">Title 2</span>
+        <span class="sample" style="font-size: 32px; font-weight: 500; line-height: 1.2;">Shape, refined.</span>
+        <span class="specs">32 / 38<br>weight 500<br>-0.02em</span>
+      </div>
+      <div class="type-row">
+        <span class="label">Title 3</span>
+        <span class="sample" style="font-size: 24px; font-weight: 500; line-height: 1.3;">Section heading.</span>
+        <span class="specs">24 / 32<br>weight 500<br>-0.01em</span>
+      </div>
+      <div class="type-row">
+        <span class="label">Lead</span>
+        <span class="sample" style="font-size: 18px; color: var(--text-muted); line-height: 1.5;">A slightly larger body size for introductions and summary paragraphs that set context for what follows.</span>
+        <span class="specs">18 / 27<br>weight 400</span>
+      </div>
+      <div class="type-row">
+        <span class="label">Body</span>
+        <span class="sample" style="font-size: 15px; line-height: 1.6;">Default reading size. Designed for comfortable scanning of dense content — docs, product copy, forms, everywhere.</span>
+        <span class="specs">15 / 24<br>weight 400</span>
+      </div>
+      <div class="type-row">
+        <span class="label">Small</span>
+        <span class="sample" style="font-size: 13px; color: var(--text-muted);">Supporting copy, captions, helper text.</span>
+        <span class="specs">13 / 20<br>weight 400</span>
+      </div>
+      <div class="type-row">
+        <span class="label">Label</span>
+        <span class="sample mono" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--teal-500);">Section / Metadata / Status</span>
+        <span class="specs">11 / 16<br>mono 500<br>+0.18em</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 SPACING + RADII -->
+  <section class="block">
+    <div class="section-head">
+      <div class="title">
+        <span class="num">04 — Space &amp; shape</span>
+        <h2>Spacing, radii, elevation</h2>
+      </div>
+      <p class="desc">Spacing is a 4px scale. Use the named tokens — never arbitrary values. Radii stay tight; we avoid overly rounded shapes except for pills.</p>
+    </div>
+
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="ctitle"><h3>Spacing scale</h3><span class="tag">4px base</span></div>
+        <div>
+          <div class="spacing-row"><span class="label">--s-1</span><div class="bar" style="width: 4px;"></div><span class="val">4</span></div>
+          <div class="spacing-row"><span class="label">--s-2</span><div class="bar" style="width: 8px;"></div><span class="val">8</span></div>
+          <div class="spacing-row"><span class="label">--s-3</span><div class="bar" style="width: 12px;"></div><span class="val">12</span></div>
+          <div class="spacing-row"><span class="label">--s-4</span><div class="bar" style="width: 16px;"></div><span class="val">16</span></div>
+          <div class="spacing-row"><span class="label">--s-5</span><div class="bar" style="width: 24px;"></div><span class="val">24</span></div>
+          <div class="spacing-row"><span class="label">--s-6</span><div class="bar" style="width: 32px;"></div><span class="val">32</span></div>
+          <div class="spacing-row"><span class="label">--s-7</span><div class="bar" style="width: 48px;"></div><span class="val">48</span></div>
+          <div class="spacing-row"><span class="label">--s-8</span><div class="bar" style="width: 64px;"></div><span class="val">64</span></div>
+          <div class="spacing-row"><span class="label">--s-9</span><div class="bar" style="width: 96px;"></div><span class="val">96</span></div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="ctitle"><h3>Radii</h3><span class="tag">tight</span></div>
+        <div class="radius-row">
+          <div class="ritem r-xs"><span class="rname">xs</span><span class="rval">2</span></div>
+          <div class="ritem r-sm"><span class="rname">sm</span><span class="rval">4</span></div>
+          <div class="ritem r-md"><span class="rname">md</span><span class="rval">8</span></div>
+          <div class="ritem r-lg"><span class="rname">lg</span><span class="rval">12</span></div>
+          <div class="ritem r-xl"><span class="rname">xl</span><span class="rval">20</span></div>
+          <div class="ritem r-pill"><span class="rname">pill</span><span class="rval">999</span></div>
+        </div>
+        <div class="ctitle" style="margin-top: var(--s-6);"><h3>Elevation</h3><span class="tag">shadows</span></div>
+        <div class="elev-row" style="grid-template-columns: repeat(4, 1fr);">
+          <div class="elev-card e1"><span class="ename">Shadow 1</span><span class="evar">--shadow-1</span></div>
+          <div class="elev-card e2"><span class="ename">Shadow 2</span><span class="evar">--shadow-2</span></div>
+          <div class="elev-card e3"><span class="ename">Shadow 3</span><span class="evar">--shadow-3</span></div>
+          <div class="elev-card eg"><span class="ename">Glow</span><span class="evar">--shadow-glow</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 COMPONENTS -->
+  <section class="block">
+    <div class="section-head">
+      <div class="title">
+        <span class="num">05 — Components</span>
+        <h2>Core UI primitives</h2>
+      </div>
+      <p class="desc">First pass at the atoms. Everything builds from tokens above — no magic values below.</p>
+    </div>
+
+    <div class="comp-grid">
+      <!-- Buttons -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Buttons</h3><span class="tag">5 variants · 3 sizes</span></div>
+        <div class="comp-stage col">
+          <div class="row">
+            <button class="btn btn-primary">Get started</button>
+            <button class="btn btn-secondary">Secondary</button>
+            <button class="btn btn-ghost">Ghost</button>
+            <button class="btn btn-danger">Delete</button>
+            <button class="btn btn-link">Learn more →</button>
+          </div>
+          <div class="row">
+            <button class="btn btn-primary btn-sm">Small</button>
+            <button class="btn btn-primary">Default</button>
+            <button class="btn btn-primary btn-lg">Large</button>
+            <button class="btn btn-primary" disabled="">Disabled</button>
+          </div>
+          <div class="row">
+            <button class="btn btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+              With icon
+            </button>
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+              Schedule
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Badges -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Badges &amp; status</h3><span class="tag">status</span></div>
+        <div class="comp-stage">
+          <span class="badge solid">SHIPPED</span>
+          <span class="badge outline">BETA</span>
+          <span class="badge neutral">DRAFT</span>
+          <span class="badge success"><span class="dot"></span>LIVE</span>
+          <span class="badge warning"><span class="dot"></span>QUEUED</span>
+          <span class="badge danger"><span class="dot"></span>FAILED</span>
+        </div>
+      </div>
+
+      <!-- Inputs -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Form fields</h3><span class="tag">inputs</span></div>
+        <div class="comp-stage col" data-dashlane-rid="fcc699f57e887fbd">
+          <div class="field">
+            <label for="n1">Full name</label>
+            <input class="input" id="n1" placeholder="Jane Doe" value="Alex Morgan" data-dashlane-rid="5797a5bf9e92da7f">
+          </div>
+          <div class="field">
+            <label for="n2">Email</label>
+            <input class="input" id="n2" placeholder="you@domain.com" data-dashlane-rid="a9d21c6f407c3b0c">
+          </div>
+          <div class="field">
+            <label for="n3">Role</label>
+            <select class="select" id="n3" data-dashlane-rid="a6c7b1749d2ef411">
+              <option>Product designer</option>
+              <option>Engineer</option>
+              <option>PM</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Notes</label>
+            <textarea class="textarea" placeholder="Anything else we should know…" data-dashlane-rid="4c63bc1883c075d5"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Selection &amp; toggle</h3><span class="tag">controls</span></div>
+        <div class="comp-stage col">
+          <div class="row">
+            <label class="checkbox"><input type="checkbox" checked=""><span class="box"></span>Remember me</label>
+            <label class="checkbox"><input type="checkbox"><span class="box"></span>Subscribe to updates</label>
+          </div>
+          <div class="row">
+            <label class="radio"><input type="radio" name="r" checked=""><span class="box"></span>Monthly</label>
+            <label class="radio"><input type="radio" name="r"><span class="box"></span>Annually</label>
+            <label class="radio"><input type="radio" name="r"><span class="box"></span>Enterprise</label>
+          </div>
+          <div class="row">
+            <label class="toggle"><input type="checkbox" checked=""><span class="track"></span>Auto-deploy</label>
+            <label class="toggle"><input type="checkbox"><span class="track"></span>Public profile</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Data card</h3><span class="tag">pattern</span></div>
+        <div class="comp-stage">
+          <div class="demo-card">
+            <div class="row" style="justify-content: space-between;">
+              <div>
+                <div class="sub">Monthly active</div>
+                <div class="title">Subscribers</div>
+              </div>
+              <span class="badge success"><span class="dot"></span>+12.4%</span>
+            </div>
+            <div class="big">48,291</div>
+            <div class="spark">
+              <svg viewBox="0 0 200 40" preserveAspectRatio="none">
+                <path d="M0 28 L20 26 L40 30 L60 18 L80 22 L100 12 L120 16 L140 8 L160 12 L180 4 L200 8" fill="none" stroke="#02edc6" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+                <path d="M0 28 L20 26 L40 30 L60 18 L80 22 L100 12 L120 16 L140 8 L160 12 L180 4 L200 8 L200 40 L0 40 Z" fill="url(#g)" opacity="0.25"></path>
+                <defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#02edc6"></stop><stop offset="100%" stop-color="#02edc6" stop-opacity="0"></stop></linearGradient></defs>
+              </svg>
+            </div>
+            <div class="row" style="justify-content: space-between;">
+              <span class="sub">LAST 30 DAYS</span>
+              <span class="btn btn-link" style="padding: 0;">View report →</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alerts -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Alerts</h3><span class="tag">feedback</span></div>
+        <div class="comp-stage col">
+          <div class="alert">
+            <span class="icon">i</span>
+            <div class="body">
+              <div class="t">Workspace synced</div>
+              <div class="d">All changes from the last 24 hours have been merged successfully.</div>
+            </div>
+          </div>
+          <div class="alert warning">
+            <span class="icon">!</span>
+            <div class="body">
+              <div class="t">Usage approaching limit</div>
+              <div class="d">You've used 87% of your monthly compute budget.</div>
+            </div>
+          </div>
+          <div class="alert danger">
+            <span class="icon">!</span>
+            <div class="body">
+              <div class="t">Deploy failed</div>
+              <div class="d">Build step exited with code 1. Check the logs for details.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Iconography placeholder -->
+      <div class="comp-card" style="grid-column: span 2;">
+        <div class="ctitle">
+          <h3>Iconography</h3>
+          <span class="tag">20px · 1.5 stroke · round caps</span>
+        </div>
+        <div class="comp-stage">
+          <div class="icon-grid" style="width:100%;">
+            <!-- Placeholder icons (simple strokes) -->
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-9 9 9M5 10v10h14V10"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 9h18"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6 4 4 6-6"></path><path d="M14 5h6v6"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M9 12l2 2 4-4"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a4 4 0 01-4 4H7l-4 4V7a4 4 0 014-4h10a4 4 0 014 4z"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 01-3.4 0"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></div>
+            <div class="icon-cell"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9l-7 7-4-4"></path></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 PROJECT CARDS -->
+  <section class="block">
+    <div class="section-head">
+      <div class="title">
+        <span class="num">06 — Project cards</span>
+        <h2>Five ways to show work</h2>
+      </div>
+      <p class="desc">From hero takeover to dense list. Pick the variant that matches the weight of what you're presenting.</p>
+    </div>
+
+    <!-- Hero card -->
+    <div class="pcards">
+      <div class="pcard-hero">
+        <div class="media"></div>
+        <span class="corner-tag">Featured · Case study</span>
+        <span class="scan"></span>
+        <div class="body">
+          <div class="left">
+            <span class="meta">2026 · Brand identity</span>
+            <h3 class="title">Halcyon — a refractive identity system for an audio lab</h3>
+            <span class="desc">Type, motion and sound design for a new ambient-focused listening platform.</span>
+          </div>
+          <div class="right">
+            <div class="arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Standard 3-up grid -->
+      <div class="pcard-grid">
+        <div class="pcard thumb-a">
+          <div class="thumb"><div class="overlay">Cover · 16/10</div><span class="stat-corner">Live</span></div>
+          <div class="pbody">
+            <div class="pmeta"><span>Brand</span><span class="yr">2025</span></div>
+            <div class="ptitle">Northwind Index</div>
+            <div class="pdesc">A weather-data publication. Identity, type, and a calm dashboard for forecasters.</div>
+            <div class="pchips">
+              <span class="chip">Brand</span><span class="chip">Type</span><span class="chip">Web</span>
+            </div>
+          </div>
+        </div>
+        <div class="pcard thumb-c">
+          <div class="thumb"><div class="overlay">Cover · 16/10</div><span class="stat-corner">In progress</span></div>
+          <div class="pbody">
+            <div class="pmeta"><span>Product</span><span class="yr">2025</span></div>
+            <div class="ptitle">Cinder OS</div>
+            <div class="pdesc">A spatial computing shell exploring depth, parallax, and ambient typography.</div>
+            <div class="pchips">
+              <span class="chip">UX</span><span class="chip">Motion</span><span class="chip">3D</span>
+            </div>
+          </div>
+        </div>
+        <div class="pcard thumb-e">
+          <div class="thumb"><div class="overlay">Cover · 16/10</div><span class="stat-corner">Archived</span></div>
+          <div class="pbody">
+            <div class="pmeta"><span>Editorial</span><span class="yr">2024</span></div>
+            <div class="ptitle">Field Notes Vol. 03</div>
+            <div class="pdesc">A printed journal collecting design ephemera from working studios in Europe.</div>
+            <div class="pchips">
+              <span class="chip">Print</span><span class="chip">Editorial</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cinema row -->
+      <div class="pcard-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="pcard-cinema">
+          <div class="cmedia"></div>
+          <span class="ribbon">New</span>
+          <div class="cbody">
+            <div class="cmeta">Motion · 2026</div>
+            <div class="ctitle">Pulse</div>
+            <div class="cbottom">
+              <span>02:14</span>
+              <div class="play"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1l8 5-8 5z"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="pcard-cinema">
+          <div class="cmedia b"></div>
+          <div class="cbody">
+            <div class="cmeta">Identity · 2025</div>
+            <div class="ctitle">Lumen Lab</div>
+            <div class="cbottom">
+              <span>Photography</span>
+              <div class="play"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1l8 5-8 5z"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="pcard-cinema">
+          <div class="cmedia c"></div>
+          <div class="cbody">
+            <div class="cmeta">Web · 2025</div>
+            <div class="ctitle">Quartz / 03</div>
+            <div class="cbottom">
+              <span>Live</span>
+              <div class="play"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1l8 5-8 5z"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="pcard-cinema">
+          <div class="cmedia"></div>
+          <div class="cbody">
+            <div class="cmeta">Brand · 2024</div>
+            <div class="ctitle">Atlas Books</div>
+            <div class="cbottom">
+              <span>4 chapters</span>
+              <div class="play"><svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M3 1l8 5-8 5z"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Index card (editorial) -->
+      <div class="pcard-index">
+        <span class="num">№ 04</span>
+        <div>
+          <div class="ititle">A typeface for distance — Variable display drawn for screens at 4K and beyond.</div>
+          <div class="pdesc">Built across two axes. Used by independent publishers, displayed at 200pt and 11pt with equal care.</div>
+          <div class="imeta">
+            <span><b>Type design</b></span>
+            <span><b>2024 — 2025</b></span>
+            <span><b>Independent</b></span>
+            <span><b>2 weights</b></span>
+          </div>
+        </div>
+        <div class="marquee">№04</div>
+      </div>
+
+      <!-- Compact list -->
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div class="pcard-list">
+          <div class="lthumb"></div>
+          <div class="lmain">
+            <span class="ltitle">Helio Studios — Brand &amp; site</span>
+            <span class="lsub">Identity, motion, and a marketing site for a synthetic media studio.</span>
+          </div>
+          <div class="lstack">
+            <span class="chip">Brand</span><span class="chip">Web</span><span class="chip">Motion</span>
+          </div>
+          <span class="lyr">2026</span>
+          <span class="larr">→</span>
+        </div>
+        <div class="pcard-list">
+          <div class="lthumb b"></div>
+          <div class="lmain">
+            <span class="ltitle">Drift — Mobile reading app</span>
+            <span class="lsub">Long-form reading with a focus on quiet typography and offline reliability.</span>
+          </div>
+          <div class="lstack">
+            <span class="chip">iOS</span><span class="chip">UX</span>
+          </div>
+          <span class="lyr">2025</span>
+          <span class="larr">→</span>
+        </div>
+        <div class="pcard-list">
+          <div class="lthumb c"></div>
+          <div class="lmain">
+            <span class="ltitle">Forge — Editor extension</span>
+            <span class="lsub">A keyboard-driven design tool for engineers who don't want to leave their IDE.</span>
+          </div>
+          <div class="lstack">
+            <span class="chip">Tooling</span><span class="chip">UX</span><span class="chip">DX</span>
+          </div>
+          <span class="lyr">2024</span>
+          <span class="larr">→</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 ADVANCED COMPONENTS -->
+  <section class="block">
+    <div class="section-head">
+      <div class="title">
+        <span class="num">07 — Patterns</span>
+        <h2>Components &amp; micro-interactions</h2>
+      </div>
+      <p class="desc">Behavioural primitives. Hover everything — these were designed for the fingertips, not the screenshot.</p>
+    </div>
+
+    <div class="comp-grid">
+      <!-- Tabs -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Tabs · animated indicator</h3><span class="tag">segmented</span></div>
+        <div class="comp-stage">
+          <div class="tabs" id="tabs1">
+            <button data-i="0" class="active">Overview</button>
+            <button data-i="1">Activity</button>
+            <button data-i="2">Settings</button>
+            <button data-i="3">Logs</button>
+            <span class="tab-indicator"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Magnetic button + glow card -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Buttons in motion</h3><span class="tag">hover</span></div>
+        <div class="comp-stage" style="justify-content: center; gap: var(--s-5);">
+          <button class="magnetic" id="magBtn"><span>Get in touch</span></button>
+          <div class="tooltip-wrap">
+            <button class="btn btn-secondary">Hover for tooltip</button>
+            <span class="tooltip">Use ⌘K to open command bar</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Glow card -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Cursor-follow glow</h3><span class="tag">hover</span></div>
+        <div class="comp-stage" style="padding: 0;">
+          <div class="glow-card" id="glow1" style="width: 100%;">
+            <div class="gtitle">Move your cursor across this card.</div>
+            <div class="gdesc">A radial spotlight tracks the cursor — useful for hero CTAs and feature tiles.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avatars + tags -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Avatar group · expand on hover</h3><span class="tag">avatars</span></div>
+        <div class="comp-stage col">
+          <div class="row" style="justify-content: space-between; width: 100%;">
+            <div class="avatar-group">
+              <span class="avatar a1">JL</span>
+              <span class="avatar a2">SK</span>
+              <span class="avatar a3">RM</span>
+              <span class="avatar a4">AP</span>
+              <span class="avatar a5">+3</span>
+            </div>
+            <div class="row">
+              <span class="badge solid">3 ONLINE</span>
+            </div>
+          </div>
+          <div class="taginput">
+            <span class="tag">React <span class="x">×</span></span>
+            <span class="tag">Motion <span class="x">×</span></span>
+            <span class="tag">Brand <span class="x">×</span></span>
+            <input placeholder="Add a tag…" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Stepper -->
+      <div class="comp-card" style="grid-column: span 2;">
+        <div class="ctitle"><h3>Stepper</h3><span class="tag">flow</span></div>
+        <div class="comp-stage">
+          <div class="stepper" style="width: 100%;">
+            <div class="step done"><div class="dot">✓</div><span class="lbl">Brief</span></div>
+            <div class="line"></div>
+            <div class="step done"><div class="dot">✓</div><span class="lbl">Discovery</span></div>
+            <div class="line"></div>
+            <div class="step active"><div class="dot">3</div><span class="lbl">Design</span></div>
+            <div class="line"></div>
+            <div class="step"><div class="dot">4</div><span class="lbl">Build</span></div>
+            <div class="line"></div>
+            <div class="step"><div class="dot">5</div><span class="lbl">Ship</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Counter + slider -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Animated counter</h3><span class="tag">numerics</span></div>
+        <div class="comp-stage col">
+          <div class="counter-card">
+            <span class="cnum" id="counter1">0</span>
+            <span class="clbl">Projects shipped · last 12 months</span>
+          </div>
+        </div>
+      </div>
+      <div class="comp-card">
+        <div class="ctitle"><h3>Range</h3><span class="tag">input</span></div>
+        <div class="comp-stage col">
+          <span class="clbl" style="font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle); letter-spacing: 0.14em; text-transform: uppercase;">Density</span>
+          <div class="range-row">
+            <input type="range" min="0" max="100" value="64" class="rslider" id="r1" />
+            <span class="rval" id="r1v">64</span>
+          </div>
+          <span class="clbl" style="font-family: var(--font-mono); font-size: 11px; color: var(--text-subtle); letter-spacing: 0.14em; text-transform: uppercase;">Radius</span>
+          <div class="range-row">
+            <input type="range" min="0" max="32" value="12" class="rslider" id="r2" />
+            <span class="rval" id="r2v">12</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal trigger + Toast trigger -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Modal</h3><span class="tag">overlay</span></div>
+        <div class="comp-stage">
+          <button class="btn btn-primary" id="openModal">Open dialog</button>
+          <button class="btn btn-secondary" id="openToast">Trigger toast</button>
+        </div>
+      </div>
+
+      <!-- Skeleton -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Skeleton loader</h3><span class="tag">loading</span></div>
+        <div class="comp-stage col">
+          <div class="skeleton" style="height: 120px; width: 100%;"></div>
+          <div class="skeleton" style="height: 14px; width: 60%;"></div>
+          <div class="skeleton" style="height: 12px; width: 90%;"></div>
+          <div class="skeleton" style="height: 12px; width: 75%;"></div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="comp-card">
+        <div class="ctitle"><h3>Empty state</h3><span class="tag">zero</span></div>
+        <div class="comp-stage" style="padding: 0;">
+          <div class="empty" style="width: 100%;">
+            <div class="eicon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3"/>
+              </svg>
+            </div>
+            <div class="et">No projects yet</div>
+            <div class="ed">Drop in a case study or import from your last engagement to get started.</div>
+            <button class="btn btn-primary btn-sm" style="margin-top: var(--s-3);">+ New project</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Command palette -->
+      <div class="comp-card" style="grid-column: span 2;">
+        <div class="ctitle"><h3>Command palette · ⌘K</h3><span class="tag">keyboard</span></div>
+        <div class="comp-stage" style="padding: 0; background: transparent; border: none;">
+          <div class="cmdk">
+            <div class="cmdk-input">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+              <input placeholder="Search projects, files, people…" />
+              <span class="kbd">esc</span>
+            </div>
+            <div class="cmdk-list">
+              <div class="cmdk-section">Projects</div>
+              <div class="cmdk-item active">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                Halcyon — Identity system
+              </div>
+              <div class="cmdk-item">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                Cinder OS — Spatial shell
+              </div>
+              <div class="cmdk-section">Actions</div>
+              <div class="cmdk-item">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M5 12h14"/></svg>
+                New project
+              </div>
+              <div class="cmdk-item">
+                <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a4 4 0 01-4 4H7l-4 4V7a4 4 0 014-4h10a4 4 0 014 4z"/></svg>
+                Invite a collaborator
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal markup -->
+  <div class="modal-backdrop" id="modal1">
+    <div class="modal">
+      <div class="mhead">
+        <h3>Publish to portfolio</h3>
+        <button class="mclose" id="closeModal">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+      <div class="mbody">
+        Your case study will be visible at morphed.it/work/halcyon. You can revert to draft any time.
+      </div>
+      <div class="mfoot">
+        <button class="btn btn-ghost" id="cancelModal">Cancel</button>
+        <button class="btn btn-primary">Publish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast stack -->
+  <div class="toast-stack" id="toastStack"></div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="mark">
+      <img src="assets/mark.webp" alt="" style="height:20px;width:20px;object-fit:contain;">
+      <span>MORPHED · DS v0.1</span>
+    </div>
+    <div>Dark theme · Space Grotesk · 02EDC6</div>
+  </div>
+
+</div>
+
+<script>
+  (function(){
+    const tabs = document.getElementById('tabs1');
+    if (!tabs) return;
+    const indicator = tabs.querySelector('.tab-indicator');
+    const buttons = tabs.querySelectorAll('button');
+    function move(btn){
+      const r = btn.getBoundingClientRect();
+      const tr = tabs.getBoundingClientRect();
+      indicator.style.left = (r.left - tr.left) + 'px';
+      indicator.style.width = r.width + 'px';
+    }
+    buttons.forEach(b => b.addEventListener('click', () => {
+      buttons.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      move(b);
+    }));
+    requestAnimationFrame(() => move(tabs.querySelector('.active')));
+  })();
+
+  (function(){
+    const btn = document.getElementById('magBtn');
+    if (!btn) return;
+    btn.addEventListener('mousemove', (e) => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width/2;
+      const y = e.clientY - r.top - r.height/2;
+      btn.style.transform = `translate(${x*0.25}px, ${y*0.4}px)`;
+    });
+    btn.addEventListener('mouseleave', () => btn.style.transform = 'translate(0,0)');
+  })();
+
+  (function(){
+    const card = document.getElementById('glow1');
+    if (!card) return;
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+      card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+  })();
+
+  (function(){
+    const el = document.getElementById('counter1');
+    if (!el) return;
+    const target = 47;
+    let started = false;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting && !started) {
+          started = true;
+          const dur = 1400; const t0 = performance.now();
+          function step(t){
+            const p = Math.min((t - t0)/dur, 1);
+            const eased = 1 - Math.pow(1-p, 3);
+            el.textContent = Math.round(target * eased);
+            if (p < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        }
+      });
+    }, { threshold: 0.4 });
+    io.observe(el);
+  })();
+
+  ['r1','r2'].forEach(id => {
+    const i = document.getElementById(id);
+    const v = document.getElementById(id+'v');
+    if (!i) return;
+    i.addEventListener('input', () => v.textContent = i.value);
+  });
+
+  (function(){
+    const m = document.getElementById('modal1');
+    if (!m) return;
+    document.getElementById('openModal').onclick = () => m.classList.add('open');
+    document.getElementById('closeModal').onclick = () => m.classList.remove('open');
+    document.getElementById('cancelModal').onclick = () => m.classList.remove('open');
+    m.addEventListener('click', (e) => { if (e.target === m) m.classList.remove('open'); });
+  })();
+
+  (function(){
+    const stack = document.getElementById('toastStack');
+    if (!stack) return;
+    const messages = ['Project saved as draft','Invite sent to alex@morphed.it','Case study published','Theme synced'];
+    let i = 0;
+    document.getElementById('openToast').onclick = () => {
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.innerHTML = `<span class="ticon">✓</span><span>${messages[i++ % messages.length]}</span>`;
+      stack.appendChild(t);
+      setTimeout(() => { t.classList.add('removing'); setTimeout(() => t.remove(), 250); }, 2400);
+    };
+  })();
+
+  (function(){
+    document.querySelectorAll('.taginput').forEach(wrap => {
+      const input = wrap.querySelector('input');
+      wrap.querySelectorAll('.x').forEach(x => x.onclick = () => x.parentElement.remove());
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && input.value.trim()) {
+          const tag = document.createElement('span');
+          tag.className = 'tag';
+          tag.innerHTML = `${input.value.trim()} <span class="x">×</span>`;
+          tag.querySelector('.x').onclick = () => tag.remove();
+          wrap.insertBefore(tag, input);
+          input.value = '';
+        } else if (e.key === 'Backspace' && !input.value) {
+          const last = wrap.querySelectorAll('.tag');
+          if (last.length) last[last.length-1].remove();
+        }
+      });
+    });
+  })();
+</script>
+
+</body></html>

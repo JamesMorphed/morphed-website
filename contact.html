@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact — Morphed Studio</title>
+  <meta name="description" content="Start a conversation. Direct email to James Clark — replies within one working day. Based in Kent, UK." />
+  <link rel="canonical" href="https://morphed.studio/contact.html" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/mark.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+  <meta name="theme-color" content="#04080a" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Morphed Studio" />
+  <meta property="og:title" content="Contact — Morphed Studio" />
+  <meta property="og:description" content="Start a conversation. Direct email to James Clark — replies within one working day. Based in Kent, UK." />
+  <meta property="og:url" content="https://morphed.studio/contact.html" />
+  <meta property="og:image" content="https://morphed.studio/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact — Morphed Studio" />
+  <meta name="twitter:description" content="Start a conversation. Direct email to James Clark — replies within one working day. Based in Kent, UK." />
+  <meta name="twitter:image" content="https://morphed.studio/assets/og-image.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css" />
+<style>
+  .hero{margin-bottom:var(--fl-7)}
+  .hero h1{font-size:var(--t-display); line-height:0.9; letter-spacing:-0.04em; margin-top:var(--s-5); max-width:18ch}
+  .hero h1 em{font-style:normal; color:var(--teal-500)}
+  .hero .lead{font-size:var(--t-lead); color:var(--muted); max-width:54ch; margin-top:var(--s-5); line-height:1.5}
+
+  .contact-grid{display:grid; grid-template-columns:1.4fr 1fr; gap:var(--fl-6); align-items:start}
+  @media (max-width:900px){.contact-grid{grid-template-columns:1fr}}
+
+  /* Email card */
+  .contact-card{display:flex; flex-direction:column; gap:var(--s-5); background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--fl-5)}
+  .form-head{display:flex; justify-content:space-between; align-items:center; padding-bottom:var(--s-4); border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted)}
+  .form-head .step{color:var(--teal-500)}
+
+  .email-hero{display:flex; flex-direction:column; gap:var(--s-3); padding:var(--s-2) 0 var(--s-3)}
+  .email-eyebrow{font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--subtle)}
+  .email-address{font-size:clamp(30px, 4.2vw, 44px); letter-spacing:-0.02em; color:var(--text); text-decoration:none; line-height:1.05; word-break:break-word; transition:color .2s ease; font-weight:500}
+  .email-address:hover{color:var(--teal-500)}
+  .email-sub{color:var(--muted); font-size:15px; line-height:1.6; max-width:52ch; margin:0}
+  .email-actions{display:flex; flex-wrap:wrap; gap:var(--s-2); margin-top:var(--s-2)}
+  .btn-ghost{background:transparent; border:1px solid var(--border-strong); color:var(--text); padding:14px 22px; border-radius:999px; font-family:var(--font-mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; transition:border-color .2s ease, color .2s ease; font-weight:500}
+  .btn-ghost:hover{border-color:var(--teal-500); color:var(--teal-500)}
+  .btn-ghost.copied{border-color:var(--teal-500); color:var(--teal-500)}
+  .btn-link{background:transparent; border:none; padding:0; color:var(--muted); font-family:var(--font-mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; transition:color .2s ease; cursor:pointer}
+  .btn-link:hover{color:var(--teal-500)}
+
+  .brief-guide{background:var(--bg); border:1px solid var(--border-strong); border-radius:var(--r-md); padding:var(--s-4)}
+  .bg-head{display:flex; justify-content:space-between; align-items:center; padding-bottom:var(--s-3); border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--subtle); gap:var(--s-2); flex-wrap:wrap}
+  .bg-head .step{color:var(--teal-500)}
+  .bg-list{list-style:none; margin:var(--s-3) 0 0; padding:0; display:flex; flex-direction:column; gap:var(--s-2)}
+  .bg-list li{position:relative; padding-left:22px; color:var(--muted); font-size:14px; line-height:1.6}
+  .bg-list li::before{content:""; position:absolute; left:0; top:11px; width:10px; height:1px; background:var(--teal-500)}
+  .bg-list li b{color:var(--text); font-weight:500}
+
+  .form-submit{display:flex; justify-content:space-between; align-items:center; padding-top:var(--s-4); border-top:1px solid var(--border); gap:var(--s-4); flex-wrap:wrap}
+  .form-submit .resp{font-family:var(--font-mono); font-size:11px; color:var(--muted); display:flex; align-items:center; gap:8px}
+  .form-submit .resp .dot{width:6px; height:6px; border-radius:50%; background:var(--teal-500); box-shadow:0 0 8px var(--teal-glow)}
+
+  /* Right column blocks */
+  .side-card{background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--s-5); display:flex; flex-direction:column; gap:var(--s-4); margin-bottom:var(--s-4)}
+  .side-card .tag{font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--subtle); display:flex; justify-content:space-between; align-items:center}
+  .side-card .tag .live{color:var(--teal-500); display:flex; align-items:center; gap:6px}
+  .side-card .tag .live .dot{width:6px; height:6px; border-radius:50%; background:var(--teal-500); box-shadow:0 0 8px var(--teal-glow); animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1} 50%{opacity:.35}}
+  .side-card h3{font-size:20px; letter-spacing:-0.02em}
+  .side-card p{font-size:14px; color:var(--muted); line-height:1.6}
+  .side-card .row-list{display:flex; flex-direction:column; gap:10px}
+  .side-card .row-list a{display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--bg); border:1px solid var(--border-strong); border-radius:var(--r-md); font-size:14px; transition:border-color .2s}
+  .side-card .row-list a:hover{border-color:var(--teal-500)}
+  .side-card .row-list a .k{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted)}
+  .side-card .row-list a .v{color:var(--text); font-weight:500}
+
+  .map{aspect-ratio:4/3; background:radial-gradient(circle at 50% 40%, rgba(2,237,198,0.1), transparent 60%), linear-gradient(180deg, var(--bg-2), var(--bg)); border-radius:var(--r-md); position:relative; overflow:hidden; border:1px solid var(--border)}
+  .map::before{content:""; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size:24px 24px}
+  .map .pin{position:absolute; top:58%; right:18%; width:14px; height:14px; background:var(--teal-500); border-radius:50%; box-shadow:0 0 0 6px rgba(2,237,198,0.2), 0 0 30px var(--teal-500)}
+  .map .pin::after{content:""; position:absolute; inset:-4px; border:1px solid var(--teal-500); border-radius:50%; animation:ping 2.5s ease-out infinite}
+  @keyframes ping{0%{transform:scale(1); opacity:1} 100%{transform:scale(3); opacity:0}}
+  .map-meta{position:absolute; bottom:var(--s-3); left:var(--s-3); right:var(--s-3); display:flex; justify-content:space-between; font-family:var(--font-mono); font-size:10px; color:var(--muted); letter-spacing:0.14em; text-transform:uppercase}
+  .map-meta b{color:var(--text)}
+  .map-label{position:absolute; top:56%; right:32%; font-family:var(--font-mono); font-size:11px; color:var(--teal-500); letter-spacing:0.04em; background:var(--bg); padding:4px 8px; border-radius:var(--r-sm); border:1px solid var(--teal-500)}
+
+  .timeline-ui{display:grid; grid-template-columns:1fr 1fr 1fr; gap:var(--s-2); background:var(--bg); border:1px solid var(--border-strong); border-radius:var(--r-md); padding:var(--s-3)}
+  .timeline-ui .t{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--subtle); text-align:center; padding:6px}
+  .timeline-ui .t b{color:var(--text); display:block; margin-bottom:2px; font-weight:500}
+  .timeline-ui .t.active{background:rgba(2,237,198,0.08); border-radius:var(--r-sm); color:var(--teal-500)}
+  .timeline-ui .t.active b{color:var(--teal-500)}
+
+  /* Bottom: also-available */
+  .also{display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--s-4); margin-top:var(--fl-6)}
+  @media (max-width:800px){.also{grid-template-columns:1fr}}
+  .also-card{background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--s-5); display:flex; flex-direction:column; gap:var(--s-3); transition:border-color .3s}
+  .also-card:hover{border-color:var(--teal-500)}
+  .also-card h4{font-size:18px; letter-spacing:-0.01em}
+  .also-card .k{font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--teal-500)}
+  .also-card p{font-size:13px; color:var(--muted); line-height:1.55}
+  .also-card a{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal-500); margin-top:auto; padding-top:var(--s-3); border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="topbar">
+    <a class="brand" href="index.html">
+      <img src="assets/mark.webp" alt="Morphed" />
+      <div class="divider"></div>
+      <span class="label">Morphed Studio</span>
+    </a>
+    <div class="nav">
+      <a href="work.html">Work</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="journal.html">Journal</a>
+      <a href="contact.html" class="active">Contact</a>
+    </div>
+  </div>
+
+  <header class="hero">
+    <span class="eyebrow">Contact · Say hello</span>
+    <h1>Start a <em>conversation</em>.</h1>
+    <p class="lead">The best briefs come from clients who've been thinking about the problem longer than I have. Tell me what you're chewing on — the more context, the better. I reply personally to every genuine note, usually within a working day.</p>
+  </header>
+
+  <div class="contact-grid">
+
+    <!-- EMAIL CARD -->
+    <section class="contact-card">
+      <div class="form-head">
+        <span>Direct inbox</span>
+        <span class="step">Replies within 1 working day</span>
+      </div>
+
+      <div class="email-hero">
+        <span class="email-eyebrow">Write to</span>
+        <a class="email-address" href="mailto:james@morphed.it?subject=New%20enquiry%20—%20Morphed%20Studio">james@morphed.it</a>
+        <p class="email-sub">A plain email is the fastest route — no form, no gatekeeping, no auto-responder. It lands in the same inbox I check every morning.</p>
+        <div class="email-actions">
+          <a class="btn btn-primary" href="mailto:james@morphed.it?subject=New%20enquiry%20—%20Morphed%20Studio&amp;body=Hi%20James%2C%0A%0AA%20little%20about%20us%3A%0A%0AThe%20problem%20we're%20looking%20at%3A%0A%0ARough%20budget%20%26%20timing%3A%0A%0AAnything%20else%20useful%3A%0A%0AThanks%2C%0A">Open a new email →</a>
+          <button class="btn btn-ghost" type="button" id="copyEmail" data-email="james@morphed.it">Copy address</button>
+        </div>
+      </div>
+
+      <div class="brief-guide">
+        <div class="bg-head">
+          <span>Useful to include</span>
+          <span class="step">Optional — helps me reply faster</span>
+        </div>
+        <ul class="bg-list">
+          <li><b>Who you are.</b> Company, your role, and why you're the person writing.</li>
+          <li><b>The problem.</b> What's actually happening — not the solution you think you need.</li>
+          <li><b>Scope.</b> Brand, product, website, retainer, advisory — or "not sure yet."</li>
+          <li><b>Budget + timing.</b> Even a rough band helps me tell you quickly if I'm the right fit.</li>
+          <li><b>Anything else.</b> Competitors, research, a Notion doc, a voice note — whatever you have.</li>
+        </ul>
+      </div>
+
+      <div class="form-submit">
+        <div class="resp"><span class="dot"></span>I read every note — even the ones that aren't a fit</div>
+        <a class="btn btn-link" href="work.html">Or see the work first →</a>
+      </div>
+    </section>
+
+    <!-- SIDE -->
+    <aside>
+      <div class="side-card">
+        <div class="tag"><span>Direct channels</span><span class="live"><span class="dot"></span>Online · GMT</span></div>
+        <div class="row-list">
+          <a href="mailto:james@morphed.it"><span class="k">Email</span><span class="v">james@morphed.it</span></a>
+          <a href="tel:+447921190353"><span class="k">Phone</span><span class="v">+44 79211 90353</span></a>
+          <a href="https://www.linkedin.com/company/morphed-studio/" target="_blank" rel="noopener"><span class="k">LinkedIn</span><span class="v">/company/morphed-studio</span></a>
+          <a href="https://www.instagram.com/morphed.studio/" target="_blank" rel="noopener"><span class="k">Instagram</span><span class="v">@morphed.studio</span></a>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="tag"><span>Based in Kent</span><span>51.38° N, 1.38° E</span></div>
+        <div class="map">
+          <div class="map-label">Margate</div>
+          <div class="pin"></div>
+          <div class="map-meta"><span>UK · GMT</span><span><b>90 min</b> to London</span></div>
+        </div>
+        <p>Margate, Kent — 90 minutes on the high-speed line from St Pancras. Remote-first as a rule, in-person when it earns its keep.</p>
+      </div>
+
+      <div class="side-card">
+        <div class="tag"><span>Studio rhythm</span><span>Working hours</span></div>
+        <div class="timeline-ui">
+          <div class="t active"><b>Mon — Thu</b>Full focus</div>
+          <div class="t"><b>Fri</b>Admin + calls</div>
+          <div class="t"><b>Weekend</b>Off</div>
+        </div>
+        <p>I keep deep-work mornings for design, afternoons for collaboration. Calls on Fridays by default unless an active project needs otherwise.</p>
+      </div>
+
+      <div class="side-card">
+        <div class="tag"><span>Current availability</span><span class="live"><span class="dot"></span>Limited</span></div>
+        <h3>Head of UI/UX at Light &amp; Wonder.</h3>
+        <p>I'm full-time at Light &amp; Wonder, leading UI/UX across their iGaming division. The studio stays open for a very small number of outside-hours projects — brand, product, advisory. Lead times run 4 — 8 weeks and not every brief will be the right fit.</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Also -->
+  <div class="section-head">
+    <div class="title">
+      <span class="num">— Before you write</span>
+      <h2>Three quicker routes.</h2>
+    </div>
+    <p class="desc">Not every conversation needs the form.</p>
+  </div>
+
+  <div class="also">
+    <a class="also-card" href="work.html">
+      <span class="k">Route 01</span>
+      <h4>See the work first.</h4>
+      <p>Nine recent cases — Pfizer, Nokia, IGT, and more. A better answer to "is this the right studio?" than any about page.</p>
+      <a>Open work index →</a>
+    </a>
+    <a class="also-card" href="services.html">
+      <span class="k">Route 02</span>
+      <h4>Read the services page.</h4>
+      <p>Four disciplines, three engagement shapes, a process you can follow on one screen. Answers most "how does this work?" questions.</p>
+      <a>Services &amp; process →</a>
+    </a>
+    <a class="also-card" href="mailto:james@morphed.it">
+      <span class="k">Route 03</span>
+      <h4>Skip the form.</h4>
+      <p>Fastest way to my inbox. If it's confidential or you'd rather not fill in a form, mail the address directly. I reply to every genuine note.</p>
+      <a>Email james@morphed.it →</a>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+  <div class="pulse-divider footer-top-divider"></div>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <div class="mark-row"><img src="assets/logo-horizontal-white.svg" alt="Morphed Studio" /></div>
+      <p class="tag">An independent design studio run by James Clark — 13 years across brand, UX, and web, for companies that want design to lead the business, not trail it.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Studio</h5>
+      <ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="journal.html">Journal</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h5>Connect</h5>
+      <ul><li><a href="mailto:james@morphed.it">james@morphed.it</a></li><li><a href="tel:+447921190353">+44 79211 90353</a></li><li><a href="contact.html">Contact</a></li></ul>
+    </div>
+    <div class="footer-col">
+      <h5>Elsewhere</h5>
+      <ul><li><a href="https://www.linkedin.com/company/morphed-studio/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://www.instagram.com/morphed.studio/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.facebook.com/Morphedltd/" target="_blank" rel="noopener">Facebook</a></li></ul>
+    </div>
+  </div>
+  <div class="pulse-divider footer-base-divider"></div>
+  <div class="footer-base">
+    <div>© 2026 MORPHED STUDIO · Kent, UK</div>
+    <div class="avail">Now <span style="color:var(--text)">Head of UI/UX · Light &amp; Wonder</span></div>
+  </div>
+  <div class="pulse-divider mega-divider"></div>
+  <div class="mega-mark" aria-hidden="true">
+    <div class="word-wrap">
+      <img class="word-img" src="assets/morphed-footer.webp" alt="MORPHED" width="2069" height="351" loading="lazy">
+    </div>
+  </div>
+</footer>
+
+</div>
+<script>
+  document.getElementById('copyEmail')?.addEventListener('click', async (e) => {
+    const btn = e.currentTarget;
+    const email = btn.dataset.email;
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch(_) {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = email; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch(_) {}
+      document.body.removeChild(ta);
+    }
+    const orig = btn.textContent;
+    btn.textContent = 'Copied ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
+  });
+</script>
+<script>
+/* Footer divider pulse — fires once when footer scrolls into view */
+(function(){
+  const footer = document.querySelector('.footer');
+  if (!footer) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    footer.classList.add('is-pulsing');
+    return;
+  }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        footer.classList.add('is-pulsing');
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.15 });
+  io.observe(footer);
+})();
+</script>
+</body>
+</html>
