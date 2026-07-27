@@ -47,11 +47,11 @@
   .hero .ctas{display:flex; gap:var(--s-3); margin-top:var(--s-6); flex-wrap:wrap}
 
   .hero-card{border:1px solid var(--border); border-radius:var(--r-lg); background:var(--bg-1); padding:var(--s-5); display:flex; flex-direction:column; gap:var(--s-4)}
-  .hero-card .hc-head{display:flex; justify-content:space-between; align-items:center; font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--subtle)}
+  .hero-card .hc-head{display:flex; justify-content:space-between; align-items:center; font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted)}
   .hero-card .hc-head .live{color:var(--teal-500); display:flex; align-items:center; gap:6px}
   .hero-card .hc-head .live .dot{width:6px; height:6px; border-radius:50%; background:var(--teal-500); box-shadow:0 0 8px var(--teal-glow); animation:pulse 2.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:1} 50%{opacity:.35}}
-  .hero-card h3{font-size:24px; letter-spacing:-0.02em}
+  .hero-card h2{font-size:24px; letter-spacing:-0.02em}
   .hero-card .hc-meta{font-family:var(--font-mono); font-size:11px; color:var(--muted); letter-spacing:0.04em; display:flex; gap:var(--s-4); flex-wrap:wrap}
   .hero-card .hc-meta b{color:var(--text); font-weight:500}
   .hero-card .hc-preview{position:relative; aspect-ratio:16/10; background:#0a0b0b url('assets/james-clark.webp') center/cover no-repeat; border-radius:var(--r-md); overflow:hidden; border:1px solid var(--border); margin:var(--s-4) 0;}
@@ -69,19 +69,19 @@
   .figs > div:last-child{border-right:0}
   @media (max-width:720px){.figs > div{border-right:0; border-bottom:1px solid var(--border)} .figs > div:nth-child(odd){border-right:1px solid var(--border)}}
   .figs .n{font-size:44px; font-weight:500; letter-spacing:-0.03em; color:var(--teal-500); line-height:1; font-variant-numeric:tabular-nums}
-  .figs .l{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--subtle)}
+  .figs .l{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted)}
   .figs .s{color:var(--muted); font-size:12px}
 
   /* Intro block */
   .intro{display:grid; grid-template-columns:1fr 1.4fr; gap:var(--fl-6); align-items:start}
   @media (max-width:900px){.intro{grid-template-columns:1fr}}
-  .intro .eye{font-family:var(--font-mono); font-size:11px; letter-spacing:0.18em; color:var(--subtle); text-transform:uppercase}
+  .intro .eye{font-family:var(--font-mono); font-size:11px; letter-spacing:0.18em; color:var(--muted); text-transform:uppercase}
   .intro h2{font-size:clamp(28px, 3vw + 10px, 48px); line-height:1.1; letter-spacing:-0.03em; margin-top:var(--s-3); max-width:18ch}
   .intro h2 em{font-style:normal; color:var(--teal-500)}
   .intro .body{display:flex; flex-direction:column; gap:var(--s-5); color:var(--muted); font-size:16px; line-height:1.7}
   .intro .body p b{color:var(--text); font-weight:500}
   .intro-meta{display:grid; grid-template-columns:1fr 1fr; gap:var(--s-4); margin-top:var(--s-5); padding-top:var(--s-5); border-top:1px solid var(--border)}
-  .intro-meta .k{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--subtle)}
+  .intro-meta .k{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted)}
   .intro-meta .v{font-size:14px; color:var(--text); margin-top:4px}
 
   /* Selected grid — mini, links to work */
@@ -127,8 +127,8 @@
   @media (max-width:520px){.services-row{grid-template-columns:1fr}}
   .svc{background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--s-5); display:flex; flex-direction:column; gap:var(--s-3); min-height:220px; position:relative; overflow:hidden; transition:border-color .3s; cursor:pointer}
   .svc:hover{border-color:var(--teal-500)}
-  .svc .num{font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; color:var(--subtle); text-transform:uppercase}
-  .svc h4{font-size:22px; letter-spacing:-0.02em}
+  .svc .num{font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; color:var(--muted); text-transform:uppercase}
+  .svc h3{font-size:22px; letter-spacing:-0.02em}
   .svc p{font-size:13px; color:var(--muted); line-height:1.55}
   .svc .go{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal-500); margin-top:auto; display:inline-flex; align-items:center; gap:6px; transition:gap .2s}
   .svc:hover .go{gap:12px}
@@ -155,7 +155,7 @@
   .win .big{font-size:clamp(36px, 4vw + 12px, 60px); letter-spacing:-0.03em; line-height:1; color:var(--text); font-variant-numeric:tabular-nums; margin-top:var(--s-2)}
   .win .big em{font-style:normal; color:var(--teal-500)}
   .win p{font-size:14px; color:var(--muted); line-height:1.55}
-  .win .src{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--subtle); margin-top:auto; padding-top:var(--s-3); border-top:1px solid var(--border)}
+  .win .src{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin-top:auto; padding-top:var(--s-3); border-top:1px solid var(--border)}
 
   /* Clients scroll */
   .clients{padding:var(--s-4) 0; overflow:hidden; mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
@@ -168,7 +168,7 @@
   .philo{display:grid; grid-template-columns:1fr 1fr 1fr; gap:var(--s-5)}
   @media (max-width:900px){.philo{grid-template-columns:1fr}}
   .philo-col{padding:var(--s-5); border:1px solid var(--border); border-radius:var(--r-lg); background:var(--bg-1)}
-  .philo-col h4{font-size:20px; letter-spacing:-0.02em; margin-bottom:var(--s-3)}
+  .philo-col h3{font-size:20px; letter-spacing:-0.02em; margin-bottom:var(--s-3)}
   .philo-col .n{font-family:var(--font-mono); font-size:11px; letter-spacing:0.2em; color:var(--teal-500); display:block; margin-bottom:var(--s-2)}
   .philo-col p{font-size:14px; color:var(--muted); line-height:1.65}
 
@@ -196,7 +196,7 @@
   .contact-card{align-self:start; display:flex; flex-direction:column; gap:var(--s-2); background:rgba(6,8,7,0.4); border:1px solid var(--border); border-radius:var(--r-md); padding:var(--s-5)}
   .contact-card .row{display:flex; justify-content:space-between; align-items:center; gap:var(--s-4); padding:12px 0; border-bottom:1px solid var(--border)}
   .contact-card .row:last-child{border-bottom:0}
-  .contact-card .k{font-family:var(--font-mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--subtle)}
+  .contact-card .k{font-family:var(--font-mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted)}
   .contact-card .v{font-size:14px; color:var(--text); text-align:right}
   .contact-card .v a{color:var(--text); transition:color .2s ease}
   .contact-card .v a:hover{color:var(--teal-500)}
@@ -211,7 +211,7 @@
   <!-- Nav -->
   <div class="topbar">
     <a class="brand" href="index.html">
-      <img src="assets/mark.webp" alt="Morphed" />
+      <img src="assets/mark.webp" width="251" height="251" alt="Morphed" />
       <div class="divider"></div>
       <span class="label">Morphed Studio</span>
     </a>
@@ -241,7 +241,7 @@
           <span class="live"><span class="dot"></span>Head of UI/UX</span>
         </div>
         <div class="hc-preview"></div>
-        <h3>Light &amp; Wonder · iGaming</h3>
+        <h2>Light &amp; Wonder · iGaming</h2>
         <p style="font-size:14px;color:var(--muted);line-height:1.6">Leading UI/UX across the iGaming division at the world's largest gaming provider — a signature PAM platform used by operators globally, plus player behaviour products across the slot portfolio.</p>
         <div class="hc-meta"><span><b>Role</b> Head of UI/UX</span><span><b>Since</b> 2025</span><span><b>Scope</b> PAM · Systems · Team</span></div>
       </aside>
@@ -324,7 +324,7 @@
 
   <div class="proj" data-reveal-group data-reveal>
     <a class="card sm" data-spotlight href="#contact">
-      <div class="vis"><img class="photo" src="uploads/Sybajet%2002-622b52e4.jpg" alt="Sybajet private aviation website" loading="lazy"></div>
+      <div class="vis"><img class="photo" src="uploads/Sybajet%2002-622b52e4.jpg" width="1200" height="901" alt="Sybajet private aviation website" loading="lazy"></div>
       <div class="body">
         <div class="nm"><span>Sybajet · 2025</span><span>→</span></div>
         <h3>Fly the exceptional</h3>
@@ -332,7 +332,7 @@
       </div>
     </a>
     <a class="card sm" data-spotlight href="#contact">
-      <div class="vis"><img class="photo" src="uploads/620055ba3bd9b928d9a05538_Griffin-App.png" alt="IGT lottery app screens" loading="lazy"></div>
+      <div class="vis"><img class="photo" src="uploads/620055ba3bd9b928d9a05538_Griffin-App.png" width="1200" height="786" alt="IGT lottery app screens" loading="lazy"></div>
       <div class="body">
         <div class="nm"><span>IGT · 2022</span><span>→</span></div>
         <h3>From tired to top-rated</h3>
@@ -340,7 +340,7 @@
       </div>
     </a>
     <a class="card sm" data-spotlight href="#contact">
-      <div class="vis"><img class="photo" src="uploads/Charles%20%26%20Dean%2002.jpg" alt="Charles & Dean website redesign" loading="lazy"></div>
+      <div class="vis"><img class="photo" src="uploads/Charles%20%26%20Dean%2002.jpg" width="1200" height="901" alt="Charles & Dean website redesign" loading="lazy"></div>
       <div class="body">
         <div class="nm"><span>Charles &amp; Dean · 2025</span><span>→</span></div>
         <h3>Into the digital age</h3>
@@ -348,7 +348,7 @@
       </div>
     </a>
     <a class="card sm" data-spotlight href="#contact">
-      <div class="vis"><img class="photo" src="uploads/Dayshape-4ef12bf5.jpg" alt="Dayshape website with custom illustration" loading="lazy"></div>
+      <div class="vis"><img class="photo" src="uploads/Dayshape-4ef12bf5.jpg" width="1200" height="900" alt="Dayshape website with custom illustration" loading="lazy"></div>
       <div class="body">
         <div class="nm"><span>Dayshape · 2025</span><span>→</span></div>
         <h3>Resource management, rearchitected</h3>
@@ -356,7 +356,7 @@
       </div>
     </a>
     <a class="card sm" data-spotlight href="#contact">
-      <div class="vis"><img class="photo" src="uploads/IMS%2003-bdc1d0fe.jpg" alt="Immersive Studio rebrand" loading="lazy"></div>
+      <div class="vis"><img class="photo" src="uploads/IMS%2003-bdc1d0fe.jpg" width="1200" height="901" alt="Immersive Studio rebrand" loading="lazy"></div>
       <div class="body">
         <div class="nm"><span>Immersive Studio · 2024</span><span>→</span></div>
         <h3>A new studio identity</h3>
@@ -364,7 +364,7 @@
       </div>
     </a>
     <a class="card sm" data-spotlight href="#contact">
-      <div class="vis"><img class="photo" src="uploads/Expert%20Clinic%2002-ac3c11de.jpg" alt="The Expert Clinic editorial website" loading="lazy"></div>
+      <div class="vis"><img class="photo" src="uploads/Expert%20Clinic%2002-ac3c11de.jpg" width="1200" height="901" alt="The Expert Clinic editorial website" loading="lazy"></div>
       <div class="body">
         <div class="nm"><span>The Expert Clinic · 2023</span><span>→</span></div>
         <h3>Beauty on board</h3>
@@ -389,22 +389,22 @@
   <div class="services-row" data-reveal-group data-reveal>
     <div class="svc" data-spotlight>
       <span class="num">01 / Brand</span>
-      <h4>Brand identity &amp; strategy</h4>
+      <h3>Brand identity &amp; strategy</h3>
       <p>Identity systems, logos, positioning, brand guidelines. From a refresh of a tired brand to a complete build from strategy up.</p>
     </div>
     <div class="svc" data-spotlight>
       <span class="num">02 / UX</span>
-      <h4>UX design &amp; research</h4>
+      <h3>UX design &amp; research</h3>
       <p>User experience for websites, products, and apps. Audits, flows, wireframes, prototypes, design systems at scale.</p>
     </div>
     <div class="svc" data-spotlight>
       <span class="num">03 / Web</span>
-      <h4>Web design &amp; Webflow builds</h4>
+      <h3>Web design &amp; Webflow builds</h3>
       <p>Fast, conversion-led websites designed and built end-to-end in Webflow. Relume for speed, GSAP for polish.</p>
     </div>
     <div class="svc" data-spotlight>
       <span class="num">04 / Direction</span>
-      <h4>Creative direction &amp; mentoring</h4>
+      <h3>Creative direction &amp; mentoring</h3>
       <p>Retained direction for agencies and in-house teams. Mentoring for designers who want to expand the box they design in.</p>
     </div>
   </div>
@@ -455,26 +455,26 @@
 
   <div class="clients" data-reveal>
     <div class="clients-track">
-      <a class="logo-item" href="https://www.adobe.com" target="_blank" rel="noopener"><img src="uploads/Adobelogo.png" alt="Adobe" loading="lazy"></a>
-      <a class="logo-item" href="https://global.canon" target="_blank" rel="noopener"><img src="uploads/canon-logo.png" alt="Canon" loading="lazy"></a>
-      <a class="logo-item" href="https://energysavingtrust.org.uk" target="_blank" rel="noopener"><img src="assets/energy-saving-trust-white.png" alt="Energy Saving Trust" loading="lazy"></a>
-      <a class="logo-item" href="https://www.igt.com" target="_blank" rel="noopener"><img src="uploads/IGT%20logo.png" alt="IGT" loading="lazy"></a>
-      <a class="logo-item" href="https://www.intel.com" target="_blank" rel="noopener"><img src="uploads/Intel-logo.png" alt="Intel" loading="lazy"></a>
-      <a class="logo-item" href="https://www.jaguar.com" target="_blank" rel="noopener"><img src="uploads/Jaguar-Logo.png" alt="Jaguar" loading="lazy"></a>
-      <a class="logo-item" href="https://www.kcl.ac.uk" target="_blank" rel="noopener"><img src="uploads/Kcl%20logo.png" alt="King's College London" loading="lazy"></a>
-      <a class="logo-item" href="https://www.landrover.com" target="_blank" rel="noopener"><img src="uploads/Land%20Rover%20logo.png" alt="Land Rover" loading="lazy"></a>
-      <a class="logo-item" href="https://www.mastercard.com" target="_blank" rel="noopener"><img src="uploads/Mastercard%20logo.png" alt="Mastercard" loading="lazy"></a>
-      <a class="logo-item" href="https://www.microsoft.com" target="_blank" rel="noopener"><img src="uploads/Microsoft%20logo.png" alt="Microsoft" loading="lazy"></a>
-      <a class="logo-item" href="https://www.adobe.com" target="_blank" rel="noopener"><img src="uploads/Adobelogo.png" alt="Adobe" loading="lazy"></a>
-      <a class="logo-item" href="https://global.canon" target="_blank" rel="noopener"><img src="uploads/canon-logo.png" alt="Canon" loading="lazy"></a>
-      <a class="logo-item" href="https://energysavingtrust.org.uk" target="_blank" rel="noopener"><img src="assets/energy-saving-trust-white.png" alt="Energy Saving Trust" loading="lazy"></a>
-      <a class="logo-item" href="https://www.igt.com" target="_blank" rel="noopener"><img src="uploads/IGT%20logo.png" alt="IGT" loading="lazy"></a>
-      <a class="logo-item" href="https://www.intel.com" target="_blank" rel="noopener"><img src="uploads/Intel-logo.png" alt="Intel" loading="lazy"></a>
-      <a class="logo-item" href="https://www.jaguar.com" target="_blank" rel="noopener"><img src="uploads/Jaguar-Logo.png" alt="Jaguar" loading="lazy"></a>
-      <a class="logo-item" href="https://www.kcl.ac.uk" target="_blank" rel="noopener"><img src="uploads/Kcl%20logo.png" alt="King's College London" loading="lazy"></a>
-      <a class="logo-item" href="https://www.landrover.com" target="_blank" rel="noopener"><img src="uploads/Land%20Rover%20logo.png" alt="Land Rover" loading="lazy"></a>
-      <a class="logo-item" href="https://www.mastercard.com" target="_blank" rel="noopener"><img src="uploads/Mastercard%20logo.png" alt="Mastercard" loading="lazy"></a>
-      <a class="logo-item" href="https://www.microsoft.com" target="_blank" rel="noopener"><img src="uploads/Microsoft%20logo.png" alt="Microsoft" loading="lazy"></a>
+      <a class="logo-item" href="https://www.adobe.com" target="_blank" rel="noopener"><img src="uploads/Adobelogo.png" width="848" height="220" alt="Adobe" loading="lazy"></a>
+      <a class="logo-item" href="https://global.canon" target="_blank" rel="noopener"><img src="uploads/canon-logo.png" width="334" height="220" alt="Canon" loading="lazy"></a>
+      <a class="logo-item" href="https://energysavingtrust.org.uk" target="_blank" rel="noopener"><img src="assets/energy-saving-trust-white.png" width="282" height="220" alt="Energy Saving Trust" loading="lazy"></a>
+      <a class="logo-item" href="https://www.igt.com" target="_blank" rel="noopener"><img src="uploads/IGT%20logo.png" width="593" height="220" alt="IGT" loading="lazy"></a>
+      <a class="logo-item" href="https://www.intel.com" target="_blank" rel="noopener"><img src="uploads/Intel-logo.png" width="543" height="220" alt="Intel" loading="lazy"></a>
+      <a class="logo-item" href="https://www.jaguar.com" target="_blank" rel="noopener"><img src="uploads/Jaguar-Logo.png" width="391" height="220" alt="Jaguar" loading="lazy"></a>
+      <a class="logo-item" href="https://www.kcl.ac.uk" target="_blank" rel="noopener"><img src="uploads/Kcl%20logo.png" width="332" height="220" alt="King's College London" loading="lazy"></a>
+      <a class="logo-item" href="https://www.landrover.com" target="_blank" rel="noopener"><img src="uploads/Land%20Rover%20logo.png" width="418" height="220" alt="Land Rover" loading="lazy"></a>
+      <a class="logo-item" href="https://www.mastercard.com" target="_blank" rel="noopener"><img src="uploads/Mastercard%20logo.png" width="283" height="220" alt="Mastercard" loading="lazy"></a>
+      <a class="logo-item" href="https://www.microsoft.com" target="_blank" rel="noopener"><img src="uploads/Microsoft%20logo.png" width="1024" height="218" alt="Microsoft" loading="lazy"></a>
+      <a class="logo-item" href="https://www.adobe.com" target="_blank" rel="noopener"><img src="uploads/Adobelogo.png" width="848" height="220" alt="Adobe" loading="lazy"></a>
+      <a class="logo-item" href="https://global.canon" target="_blank" rel="noopener"><img src="uploads/canon-logo.png" width="334" height="220" alt="Canon" loading="lazy"></a>
+      <a class="logo-item" href="https://energysavingtrust.org.uk" target="_blank" rel="noopener"><img src="assets/energy-saving-trust-white.png" width="282" height="220" alt="Energy Saving Trust" loading="lazy"></a>
+      <a class="logo-item" href="https://www.igt.com" target="_blank" rel="noopener"><img src="uploads/IGT%20logo.png" width="593" height="220" alt="IGT" loading="lazy"></a>
+      <a class="logo-item" href="https://www.intel.com" target="_blank" rel="noopener"><img src="uploads/Intel-logo.png" width="543" height="220" alt="Intel" loading="lazy"></a>
+      <a class="logo-item" href="https://www.jaguar.com" target="_blank" rel="noopener"><img src="uploads/Jaguar-Logo.png" width="391" height="220" alt="Jaguar" loading="lazy"></a>
+      <a class="logo-item" href="https://www.kcl.ac.uk" target="_blank" rel="noopener"><img src="uploads/Kcl%20logo.png" width="332" height="220" alt="King's College London" loading="lazy"></a>
+      <a class="logo-item" href="https://www.landrover.com" target="_blank" rel="noopener"><img src="uploads/Land%20Rover%20logo.png" width="418" height="220" alt="Land Rover" loading="lazy"></a>
+      <a class="logo-item" href="https://www.mastercard.com" target="_blank" rel="noopener"><img src="uploads/Mastercard%20logo.png" width="283" height="220" alt="Mastercard" loading="lazy"></a>
+      <a class="logo-item" href="https://www.microsoft.com" target="_blank" rel="noopener"><img src="uploads/Microsoft%20logo.png" width="1024" height="218" alt="Microsoft" loading="lazy"></a>
     </div>
   </div>
 
@@ -490,17 +490,17 @@
   <div class="philo" data-reveal-group data-reveal>
     <div class="philo-col" data-spotlight>
       <span class="n">01 / Simplicity</span>
-      <h4>Distil, don't decorate.</h4>
+      <h3>Distil, don't decorate.</h3>
       <p>Most briefs are more complex than they need to be. The first job is finding the simplest version of the problem that's still worth solving — before a single pixel hits a canvas.</p>
     </div>
     <div class="philo-col" data-spotlight>
       <span class="n">02 / Sketchbook first</span>
-      <h4>Paper before pixels.</h4>
+      <h3>Paper before pixels.</h3>
       <p>Every project starts with a pen and a cheap sketchbook. Software is good at making bad ideas look convincing. Paper isn't. Paper is where the thinking actually happens.</p>
     </div>
     <div class="philo-col" data-spotlight>
       <span class="n">03 / Technologist</span>
-      <h4>Tools earn their keep.</h4>
+      <h3>Tools earn their keep.</h3>
       <p>Figma, Webflow, Relume, Spline, Vev, AI. None of them matter on their own — but the right combination collapses a month of work into a week. That's the competitive edge.</p>
     </div>
   </div>
@@ -535,15 +535,15 @@
       <p class="tag">An independent design studio run by James Clark — 13 years across brand, UX, and web, for companies that want design to lead the business, not trail it.</p>
     </div>
     <div class="footer-col">
-      <h5>Studio</h5>
+      <h3>Studio</h3>
       <ul><li><a href="#about">About</a></li><li><a href="#work">Work</a></li><li><a href="#services">Services</a></li><li><a href="#contact">Contact</a></li></ul>
     </div>
     <div class="footer-col">
-      <h5>Connect</h5>
+      <h3>Connect</h3>
       <ul><li><a href="mailto:james@morphed.it">james@morphed.it</a></li><li><a href="tel:+447921190353">+44 79211 90353</a></li><li><a href="#contact">Contact</a></li></ul>
     </div>
     <div class="footer-col">
-      <h5>Elsewhere</h5>
+      <h3>Elsewhere</h3>
       <ul><li><a href="https://www.linkedin.com/company/morphed-studio/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://www.instagram.com/morphed.studio/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.facebook.com/Morphedltd/" target="_blank" rel="noopener">Facebook</a></li></ul>
     </div>
   </div>
