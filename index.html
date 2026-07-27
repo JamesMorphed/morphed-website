@@ -35,6 +35,8 @@
 <link rel="stylesheet" href="assets/site.css" />
 <style>
   /* Homepage-specific */
+  .hero-card[data-reveal]{transform:translateX(32px) rotate(-10deg)}
+  .hero-card[data-reveal].in{transform:rotate(-10deg)}
   .hero{position:relative; padding-top:var(--fl-5); margin-bottom:var(--fl-7)}
   .hero-grid{display:grid; grid-template-columns:1.3fr 1fr; gap:var(--fl-6); align-items:end}
   @media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
@@ -99,6 +101,7 @@
   .proj .body p{font-size:13px; color:var(--muted); line-height:1.5}
 
   /* Figures for mini cards */
+  .vis .photo{width:100%; height:100%; object-fit:cover; display:block; position:absolute; inset:0}
   .fig-pfizer{background:radial-gradient(500px 250px at 70% 40%, rgba(2,237,198,0.18), transparent 60%), linear-gradient(135deg, #0b2e28, #060807 60%)}
   .fig-pfizer::before{content:""; position:absolute; top:50%; left:50%; width:60%; aspect-ratio:1; transform:translate(-50%, -50%); border:1px dashed rgba(2,237,198,0.25); border-radius:50%}
   .fig-pfizer::after{content:""; position:absolute; top:50%; left:50%; width:30%; aspect-ratio:1; transform:translate(-50%, -50%); background:radial-gradient(circle, var(--teal-400), var(--teal-600)); border-radius:50%; box-shadow:0 0 60px var(--teal-glow)}
@@ -139,7 +142,12 @@
   @keyframes march{to{transform:translateX(-50%)}}
 
   /* Highlights — awards/results */
-  .wins{display:grid; grid-template-columns:repeat(3, 1fr); gap:var(--s-4)}
+  .wins{display:grid; grid-template-columns:1.15fr 1fr; gap:var(--s-4); align-items:stretch}
+  .wins .win-stack{display:grid; grid-template-rows:repeat(3, 1fr); gap:var(--s-4)}
+  .wins .win.feature{justify-content:space-between}
+  .wins .win.feature .big{font-size:clamp(40px, 4vw + 16px, 68px)}
+  .wins .win.mini{gap:var(--s-2); padding:var(--s-5)}
+  .wins .win.mini .big{font-size:clamp(28px, 2vw + 12px, 40px)}
   @media (max-width:900px){.wins{grid-template-columns:1fr}}
   .win{background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r-lg); padding:var(--s-5); display:flex; flex-direction:column; gap:var(--s-3)}
   .win .tag{font-family:var(--font-mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--teal-500); display:inline-flex; align-items:center; gap:6px}
@@ -150,10 +158,11 @@
   .win .src{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--subtle); margin-top:auto; padding-top:var(--s-3); border-top:1px solid var(--border)}
 
   /* Clients scroll */
-  .clients{border:1px solid var(--border); border-radius:var(--r-lg); background:var(--bg-1); padding:var(--s-5); overflow:hidden; mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-  .clients-track{display:flex; gap:var(--s-7); width:max-content; animation:march 32s linear infinite}
-  .clients-track span{font-family:var(--font-mono); font-size:18px; letter-spacing:-0.01em; color:var(--muted); font-weight:500; white-space:nowrap}
-  .clients-track span::after{content:"●"; color:var(--teal-500); margin-left:var(--s-6); font-size:8px; vertical-align:middle}
+  .clients{padding:var(--s-4) 0; overflow:hidden; mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .clients-track{display:flex; gap:var(--fl-7); width:max-content; animation:march 55s linear infinite}
+  .logo-item{display:flex; align-items:center; flex:0 0 auto}
+  .logo-item img{height:48px; width:auto; max-width:180px; object-fit:contain; filter:brightness(0) invert(1); opacity:0.55; transition:opacity .25s ease}
+  .logo-item:hover img{opacity:1}
 
   /* Philosophy block — prose */
   .philo{display:grid; grid-template-columns:1fr 1fr 1fr; gap:var(--s-5)}
@@ -162,6 +171,38 @@
   .philo-col h4{font-size:20px; letter-spacing:-0.02em; margin-bottom:var(--s-3)}
   .philo-col .n{font-family:var(--font-mono); font-size:11px; letter-spacing:0.2em; color:var(--teal-500); display:block; margin-bottom:var(--s-2)}
   .philo-col p{font-size:14px; color:var(--muted); line-height:1.65}
+
+  /* One-pager anchors */
+  html{scroll-behavior:smooth}
+  section[id],div[id].anchor{scroll-margin-top:90px}
+  .topbar{position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); margin-left:calc(var(--fl-5) * -1); margin-right:calc(var(--fl-5) * -1); padding-left:var(--fl-5); padding-right:var(--fl-5)}
+
+  /* Work cards — richer imagery */
+  .proj .vis{aspect-ratio:16/11}
+  .card.lg .vis{aspect-ratio:16/9}
+  .proj .vis .badge{position:absolute; top:var(--s-3); left:var(--s-3); z-index:2; font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text); background:rgba(6,8,7,0.55); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.12); padding:5px 9px; border-radius:999px}
+
+  /* Contact section */
+  #contact{margin-top:var(--fl-7)}
+  .contact-wrap{position:relative; border:1px solid var(--border); border-radius:var(--r-lg); overflow:hidden; background:linear-gradient(135deg,#0b1a17,#060807 60%)}
+  .contact-wrap::before{content:""; position:absolute; inset:0; opacity:.5; background:radial-gradient(700px 340px at 78% 20%, rgba(2,237,198,0.14), transparent 60%); pointer-events:none}
+  .contact-inner{position:relative; z-index:1; display:grid; grid-template-columns:1.2fr 1fr; gap:var(--fl-6); padding:var(--fl-6)}
+  @media (max-width:820px){.contact-inner{grid-template-columns:1fr; gap:var(--fl-5)}}
+  .contact-lead h2{font-size:clamp(34px,4.5vw + 10px,68px); line-height:0.98; letter-spacing:-0.03em}
+  .contact-lead h2 em{font-style:normal; color:var(--teal-500)}
+  .contact-lead p{margin-top:var(--s-4); color:var(--muted); font-size:var(--t-lead); line-height:1.6; max-width:44ch}
+  .contact-mail{display:inline-flex; align-items:center; gap:10px; margin-top:var(--s-6); font-size:clamp(20px,2vw + 8px,30px); font-weight:500; letter-spacing:-0.01em; color:var(--text); border-bottom:1px solid var(--border-strong); padding-bottom:8px; transition:border-color .3s ease, color .3s ease}
+  .contact-mail:hover{color:var(--teal-500); border-color:var(--teal-500)}
+  .contact-card{align-self:start; display:flex; flex-direction:column; gap:var(--s-2); background:rgba(6,8,7,0.4); border:1px solid var(--border); border-radius:var(--r-md); padding:var(--s-5)}
+  .contact-card .row{display:flex; justify-content:space-between; align-items:center; gap:var(--s-4); padding:12px 0; border-bottom:1px solid var(--border)}
+  .contact-card .row:last-child{border-bottom:0}
+  .contact-card .k{font-family:var(--font-mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--subtle)}
+  .contact-card .v{font-size:14px; color:var(--text); text-align:right}
+  .contact-card .v a{color:var(--text); transition:color .2s ease}
+  .contact-card .v a:hover{color:var(--teal-500)}
+  .contact-card .status{display:flex; align-items:center; gap:8px; color:var(--teal-500); font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em}
+  .contact-card .status .dot{width:6px; height:6px; border-radius:50%; background:var(--teal-500); box-shadow:0 0 8px var(--teal-glow); animation:pulse 2.4s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1} 50%{opacity:.35}}
 </style>
 </head>
 <body>
@@ -175,11 +216,10 @@
       <span class="label">Morphed Studio</span>
     </a>
     <div class="nav">
-      <a href="work.html">Work</a>
-      <a href="services.html">Services</a>
-      <a href="about.html">About</a>
-      <a href="journal.html">Journal</a>
-      <a href="contact.html">Contact</a>
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
     </div>
   </div>
 
@@ -191,11 +231,11 @@
         <h1>Design that<br>leads the<br>business<em></em></h1>
         <p class="lead">An independent practice run by <b style="color:var(--text)">James Clark</b> — fourteen years spent building brands, products, and websites for Pfizer, Nokia, IGT, and a bunch of ambitious smaller names. Now <b style="color:var(--text)">Head of UI/UX at Light &amp; Wonder</b>; the studio is the archive of everything before, and the shingle for select work outside the day job.</p>
         <div class="ctas">
-          <a class="btn btn-primary" href="work.html">See the work</a>
-          <a class="btn btn-ghost" href="about.html">About the studio</a>
+          <a class="btn btn-primary" href="#work">See the work</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
         </div>
       </div>
-      <aside class="hero-card">
+      <aside class="hero-card" data-spotlight data-reveal="right">
         <div class="hc-head">
           <span>Now · 2025</span>
           <span class="live"><span class="dot"></span>Head of UI/UX</span>
@@ -218,7 +258,7 @@
   </div>
 
   <!-- Intro -->
-  <section class="section-head" style="margin-top:var(--fl-7); border-top:none; padding-top:0;">
+  <section class="section-head" id="about" style="margin-top:var(--fl-7); border-top:none; padding-top:0;" data-reveal>
     <div class="title">
       <span class="num">01 — The studio</span>
       <h2>A one-person studio. By choice, not circumstance.</h2>
@@ -226,7 +266,7 @@
     <p class="desc">Morphed Studio is the name for my solo practice — a vehicle for the work I care about, after agencies and in-house life.</p>
   </section>
 
-  <div class="intro">
+  <div class="intro" data-reveal>
     <div>
       <span class="eye">Who</span>
       <div class="intro-meta" style="margin-top:var(--s-3); border-top:0; padding-top:0; display:flex; flex-direction:column; gap:var(--s-4)">
@@ -239,9 +279,8 @@
       </div>
     </div>
     <div class="body">
-      <p><b>Morphed is the studio I wanted to hire when I was on the client side.</b> No account manager filtering the brief. No junior designer guessing your intent. Just one practitioner with thirteen years in the trade, moving from strategy to sketch to shipped artefact without a handoff in sight.</p>
-      <p>My career has been the long version of a generalist. Five years as a B2B designer at April Six during its <b>Agency of the Year</b> run. Three years as Senior Art Director at PS London across education, automotive, and consumer. Three years at IGT leading a global design team that shipped the <b>Best Lottery Product of the Year</b>. Then Nokia, where I led UX for their Brand Hub through a global rebrand. A year of full-time freelance through Pfizer's Immersive Studio.</p>
-      <p>Today I'm <b>Head of UI/UX at Light &amp; Wonder</b>, leading design across their iGaming division — a PAM platform used by operators globally and player behaviour products across the slot portfolio. The studio is the archive of everything before that, and the shingle for select work outside the day job.</p>
+      <p><b>Morphed is the studio I wanted to hire when I was on the client side.</b> No account manager filtering the brief, no junior guessing your intent — one practitioner moving from strategy to sketch to shipped work without a handoff in sight.</p>
+      <p>Fourteen years, the long way round: B2B design at <b>Agency-of-the-Year</b> April Six, art direction at PS London, a global team at IGT that shipped the <b>Best Lottery Product of the Year</b>, then UX lead on Nokia's global rebrand. Today, <b>Head of UI/UX at Light &amp; Wonder</b> — with the studio kept open for select work.</p>
     </div>
   </div>
 
@@ -275,107 +314,103 @@
   </div>
 
   <!-- Selected work -->
-  <div class="section-head">
+  <div class="section-head" id="work" data-reveal>
     <div class="title">
       <span class="num">02 — Selected work</span>
-      <h2>Nine cases from the last three years.</h2>
+      <h2>Six cases from the last three years.</h2>
     </div>
-    <p class="desc">A slice of the portfolio — spanning Pfizer's immersive creative studio, a complete Nokia rebrand, and a Glasgow aesthetic clinic that saw a 300% surge in bookings. <a href="work.html" style="color:var(--teal-500); text-decoration:underline; text-underline-offset:3px">See all →</a></p>
+    <p class="desc">A slice of the portfolio — a private-aviation brand and website, a finance brand pushed into the digital age, and the IGT lottery app that went from 1★ to 4.8★.</p>
   </div>
 
-  <div class="proj">
-    <a class="card lg" href="work.html">
-      <div class="vis"><div class="fig-pfizer" style="position:absolute;inset:0"></div></div>
-      <div class="body">
-        <div class="nm"><span>Pfizer · 2025</span><span>→</span></div>
-        <h3>Bringing Pfizer's creative studio into the light</h3>
-        <p>New visual identity + custom AI image engine for Pfizer's in-house immersive studio.</p>
-      </div>
-    </a>
-    <a class="card sm" href="work.html">
-      <div class="vis"><div class="fig-nokia" style="position:absolute;inset:0"></div></div>
-      <div class="body">
-        <div class="nm"><span>Nokia · 2023</span><span>→</span></div>
-        <h3>Nokia's new brand needed guidance</h3>
-        <p>Brand Hub redesign during a global rebrand.</p>
-      </div>
-    </a>
-    <a class="card sm" href="work.html">
-      <div class="vis"><div class="fig-igt" style="position:absolute;inset:0"></div></div>
-      <div class="body">
-        <div class="nm"><span>IGT · 2022</span><span>→</span></div>
-        <h3>From tired to top-rated</h3>
-        <p>Lottery UX framework · 4.8★ · Best Lottery Product 2021.</p>
-      </div>
-    </a>
-    <a class="card sm" href="work.html">
-      <div class="vis"><div class="fig-sybajet" style="position:absolute;inset:0"></div></div>
+  <div class="proj" data-reveal-group data-reveal>
+    <a class="card sm" data-spotlight href="#contact">
+      <div class="vis"><img class="photo" src="uploads/Sybajet%2002-622b52e4.jpg" alt="Sybajet private aviation website" loading="lazy"></div>
       <div class="body">
         <div class="nm"><span>Sybajet · 2025</span><span>→</span></div>
         <h3>Fly the exceptional</h3>
-        <p>High-performance aviation website in Webflow + GSAP.</p>
+        <p>Website and brand creation in Webflow + GSAP.</p>
       </div>
     </a>
-    <a class="card sm" href="work.html">
-      <div class="vis"><div class="fig-linea" style="position:absolute;inset:0"></div></div>
+    <a class="card sm" data-spotlight href="#contact">
+      <div class="vis"><img class="photo" src="uploads/620055ba3bd9b928d9a05538_Griffin-App.png" alt="IGT lottery app screens" loading="lazy"></div>
       <div class="body">
-        <div class="nm"><span>Dr Linea · 2024</span><span>→</span></div>
-        <h3>Age is just a number</h3>
-        <p>Aesthetic clinic redesign · +300% bookings in month one.</p>
+        <div class="nm"><span>IGT · 2022</span><span>→</span></div>
+        <h3>From tired to top-rated</h3>
+        <p>1★ to 4.8★ · Best Lottery Product 2021.</p>
       </div>
     </a>
-    <a class="card sm" href="work.html">
-      <div class="vis"><div class="fig-precision" style="position:absolute;inset:0"></div></div>
+    <a class="card sm" data-spotlight href="#contact">
+      <div class="vis"><img class="photo" src="uploads/Charles%20%26%20Dean%2002.jpg" alt="Charles & Dean website redesign" loading="lazy"></div>
       <div class="body">
-        <div class="nm"><span>Precision Placements · 2024</span><span>→</span></div>
-        <h3>Rebrand the boring</h3>
-        <p>Vivid purple palette for a recruitment brand in building control.</p>
+        <div class="nm"><span>Charles &amp; Dean · 2025</span><span>→</span></div>
+        <h3>Into the digital age</h3>
+        <p>Full UX/UI remake of a finance brand's website.</p>
+      </div>
+    </a>
+    <a class="card sm" data-spotlight href="#contact">
+      <div class="vis"><img class="photo" src="uploads/Dayshape-4ef12bf5.jpg" alt="Dayshape website with custom illustration" loading="lazy"></div>
+      <div class="body">
+        <div class="nm"><span>Dayshape · 2025</span><span>→</span></div>
+        <h3>Resource management, rearchitected</h3>
+        <p>Website rearchitecture with personalised illustration throughout.</p>
+      </div>
+    </a>
+    <a class="card sm" data-spotlight href="#contact">
+      <div class="vis"><img class="photo" src="uploads/IMS%2003-bdc1d0fe.jpg" alt="Immersive Studio rebrand" loading="lazy"></div>
+      <div class="body">
+        <div class="nm"><span>Immersive Studio · 2024</span><span>→</span></div>
+        <h3>A new studio identity</h3>
+        <p>Rebrand and new website, curated on Vev.</p>
+      </div>
+    </a>
+    <a class="card sm" data-spotlight href="#contact">
+      <div class="vis"><img class="photo" src="uploads/Expert%20Clinic%2002-ac3c11de.jpg" alt="The Expert Clinic editorial website" loading="lazy"></div>
+      <div class="body">
+        <div class="nm"><span>The Expert Clinic · 2023</span><span>→</span></div>
+        <h3>Beauty on board</h3>
+        <p>Award-winning editorial redesign for a Glasgow clinic.</p>
       </div>
     </a>
   </div>
 
   <div style="margin-top:var(--s-5); display:flex; justify-content:center">
-    <a class="btn btn-ghost" href="work.html">View all 9 cases →</a>
+    <a class="btn btn-ghost" href="#contact">Start a project →</a>
   </div>
 
   <!-- Services -->
-  <div class="section-head">
+  <div class="section-head" id="services" data-reveal>
     <div class="title">
       <span class="num">03 — Services</span>
       <h2>What I do, and have done for 13 years.</h2>
     </div>
-    <p class="desc">Four disciplines, one practitioner. <a href="services.html" style="color:var(--teal-500); text-decoration:underline; text-underline-offset:3px">Service details →</a></p>
+    <p class="desc">Four disciplines, one practitioner — from first sketch to shipped build.</p>
   </div>
 
-  <div class="services-row">
-    <a href="services.html" class="svc">
+  <div class="services-row" data-reveal-group data-reveal>
+    <div class="svc" data-spotlight>
       <span class="num">01 / Brand</span>
       <h4>Brand identity &amp; strategy</h4>
       <p>Identity systems, logos, positioning, brand guidelines. From a refresh of a tired brand to a complete build from strategy up.</p>
-      <span class="go">Explore brand work →</span>
-    </a>
-    <a href="services.html" class="svc">
+    </div>
+    <div class="svc" data-spotlight>
       <span class="num">02 / UX</span>
       <h4>UX design &amp; research</h4>
-      <p>User experience design for websites, products, and apps. Audits, flows, wireframes, prototypes, design systems at scale.</p>
-      <span class="go">Explore UX work →</span>
-    </a>
-    <a href="services.html" class="svc">
+      <p>User experience for websites, products, and apps. Audits, flows, wireframes, prototypes, design systems at scale.</p>
+    </div>
+    <div class="svc" data-spotlight>
       <span class="num">03 / Web</span>
       <h4>Web design &amp; Webflow builds</h4>
-      <p>Fast, conversion-led websites designed and built end-to-end in Webflow. Relume for speed, GSAP for polish, Midjourney for bespoke imagery.</p>
-      <span class="go">Explore web work →</span>
-    </a>
-    <a href="services.html" class="svc">
+      <p>Fast, conversion-led websites designed and built end-to-end in Webflow. Relume for speed, GSAP for polish.</p>
+    </div>
+    <div class="svc" data-spotlight>
       <span class="num">04 / Direction</span>
       <h4>Creative direction &amp; mentoring</h4>
-      <p>Retained direction for agencies and in-house teams. Mentoring for designers who want to level up — expand the box they're designing in.</p>
-      <span class="go">Explore direction work →</span>
-    </a>
+      <p>Retained direction for agencies and in-house teams. Mentoring for designers who want to expand the box they design in.</p>
+    </div>
   </div>
 
   <!-- Highlights -->
-  <div class="section-head">
+  <div class="section-head" data-reveal>
     <div class="title">
       <span class="num">04 — Highlights</span>
       <h2>Work that shipped, scaled, and won.</h2>
@@ -383,47 +418,34 @@
     <p class="desc">A portfolio of numbers. Awards on the wall, results in the analytics, ratings in the App Store.</p>
   </div>
 
-  <div class="wins">
-    <div class="win">
+  <div class="wins" data-reveal-group data-reveal>
+    <div class="win feature" data-spotlight>
       <span class="tag">Award</span>
       <div class="big"><em>Best</em><br>Lottery Product<br>of the Year</div>
       <p>IGT · 2021. Led the design of the mobile application that redefined category standards — recognised by the industry's own awards.</p>
       <span class="src">IGT Digital · Lottery Awards 2021</span>
     </div>
-    <div class="win">
-      <span class="tag">Rating</span>
-      <div class="big"><em>4.8</em>★ <span style="font-size:18px; color:var(--muted); letter-spacing:0">avg.</span></div>
-      <p>3,000+ public reviews on the App Store for the IGT lottery app — a category not known for love letters from its users.</p>
-      <span class="src">Apple App Store · Public reviews</span>
-    </div>
-    <div class="win">
-      <span class="tag">Result</span>
-      <div class="big"><em>+300%</em></div>
-      <p>Surge in new customer bookings in the first month post-launch of the redesigned Dr Linea website and booking flow.</p>
-      <span class="src">Dr Linea · 2024 post-launch</span>
-    </div>
-    <div class="win">
-      <span class="tag">Award</span>
-      <div class="big"><em>Agency</em><br>of the<br>Year</div>
-      <p>April Six, during my tenure. Contributed to global product launches and extensive software campaigns across the technology sector.</p>
-      <span class="src">April Six · B2B Marketing Awards</span>
-    </div>
-    <div class="win">
-      <span class="tag">Scale</span>
-      <div class="big"><em>4</em> countries</div>
-      <p>Led a global design team spanning Poland, America, India, and the UK at IGT — seamless collaboration across time zones and cultures.</p>
-      <span class="src">IGT · 2019–2022</span>
-    </div>
-    <div class="win">
-      <span class="tag">Current</span>
-      <div class="big"><em>Head</em><br>of<br>UI/UX</div>
-      <p>Leading UI/UX across Light &amp; Wonder's iGaming division — a PAM platform used by operators globally, plus player behaviour products across the slot portfolio.</p>
-      <span class="src">Light &amp; Wonder · 2025 — present</span>
+    <div class="win-stack">
+      <div class="win mini" data-spotlight>
+        <span class="tag">Rating</span>
+        <div class="big"><em>4.8</em>★</div>
+        <span class="src">3,000+ App Store reviews · IGT lottery app</span>
+      </div>
+      <div class="win mini" data-spotlight>
+        <span class="tag">Result</span>
+        <div class="big"><em>+300%</em></div>
+        <span class="src">New bookings, month one · Dr Linea 2024</span>
+      </div>
+      <div class="win mini" data-spotlight>
+        <span class="tag">Current</span>
+        <div class="big"><em>Head of UI/UX</em></div>
+        <span class="src">Light &amp; Wonder, iGaming · 2025 — present</span>
+      </div>
     </div>
   </div>
 
   <!-- Clients -->
-  <div class="section-head">
+  <div class="section-head" data-reveal>
     <div class="title">
       <span class="num">05 — Clients</span>
       <h2>A few names on the CV.</h2>
@@ -431,15 +453,33 @@
     <p class="desc">Direct and via agencies — UX, UI, brand, packaging, and a sprinkle of print.</p>
   </div>
 
-  <div class="clients">
+  <div class="clients" data-reveal>
     <div class="clients-track">
-      <span>Nokia</span><span>Pfizer</span><span>IGT</span><span>Jaguar Land Rover</span><span>ESET</span><span>The Expert Clinic</span><span>Sybajet</span><span>Dr Linea</span><span>Precision Placements</span><span>Beloved Homes</span><span>Pura Collagen</span><span>Naturally Nutritious</span><span>Kopa Scaffolding</span><span>Craft Architects</span>
-      <span>Nokia</span><span>Pfizer</span><span>IGT</span><span>Jaguar Land Rover</span><span>ESET</span><span>The Expert Clinic</span><span>Sybajet</span><span>Dr Linea</span><span>Precision Placements</span><span>Beloved Homes</span><span>Pura Collagen</span><span>Naturally Nutritious</span><span>Kopa Scaffolding</span><span>Craft Architects</span>
+      <a class="logo-item" href="https://www.adobe.com" target="_blank" rel="noopener"><img src="uploads/Adobelogo.png" alt="Adobe" loading="lazy"></a>
+      <a class="logo-item" href="https://global.canon" target="_blank" rel="noopener"><img src="uploads/canon-logo.png" alt="Canon" loading="lazy"></a>
+      <a class="logo-item" href="https://energysavingtrust.org.uk" target="_blank" rel="noopener"><img src="assets/energy-saving-trust-white.png" alt="Energy Saving Trust" loading="lazy"></a>
+      <a class="logo-item" href="https://www.igt.com" target="_blank" rel="noopener"><img src="uploads/IGT%20logo.png" alt="IGT" loading="lazy"></a>
+      <a class="logo-item" href="https://www.intel.com" target="_blank" rel="noopener"><img src="uploads/Intel-logo.png" alt="Intel" loading="lazy"></a>
+      <a class="logo-item" href="https://www.jaguar.com" target="_blank" rel="noopener"><img src="uploads/Jaguar-Logo.png" alt="Jaguar" loading="lazy"></a>
+      <a class="logo-item" href="https://www.kcl.ac.uk" target="_blank" rel="noopener"><img src="uploads/Kcl%20logo.png" alt="King's College London" loading="lazy"></a>
+      <a class="logo-item" href="https://www.landrover.com" target="_blank" rel="noopener"><img src="uploads/Land%20Rover%20logo.png" alt="Land Rover" loading="lazy"></a>
+      <a class="logo-item" href="https://www.mastercard.com" target="_blank" rel="noopener"><img src="uploads/Mastercard%20logo.png" alt="Mastercard" loading="lazy"></a>
+      <a class="logo-item" href="https://www.microsoft.com" target="_blank" rel="noopener"><img src="uploads/Microsoft%20logo.png" alt="Microsoft" loading="lazy"></a>
+      <a class="logo-item" href="https://www.adobe.com" target="_blank" rel="noopener"><img src="uploads/Adobelogo.png" alt="Adobe" loading="lazy"></a>
+      <a class="logo-item" href="https://global.canon" target="_blank" rel="noopener"><img src="uploads/canon-logo.png" alt="Canon" loading="lazy"></a>
+      <a class="logo-item" href="https://energysavingtrust.org.uk" target="_blank" rel="noopener"><img src="assets/energy-saving-trust-white.png" alt="Energy Saving Trust" loading="lazy"></a>
+      <a class="logo-item" href="https://www.igt.com" target="_blank" rel="noopener"><img src="uploads/IGT%20logo.png" alt="IGT" loading="lazy"></a>
+      <a class="logo-item" href="https://www.intel.com" target="_blank" rel="noopener"><img src="uploads/Intel-logo.png" alt="Intel" loading="lazy"></a>
+      <a class="logo-item" href="https://www.jaguar.com" target="_blank" rel="noopener"><img src="uploads/Jaguar-Logo.png" alt="Jaguar" loading="lazy"></a>
+      <a class="logo-item" href="https://www.kcl.ac.uk" target="_blank" rel="noopener"><img src="uploads/Kcl%20logo.png" alt="King's College London" loading="lazy"></a>
+      <a class="logo-item" href="https://www.landrover.com" target="_blank" rel="noopener"><img src="uploads/Land%20Rover%20logo.png" alt="Land Rover" loading="lazy"></a>
+      <a class="logo-item" href="https://www.mastercard.com" target="_blank" rel="noopener"><img src="uploads/Mastercard%20logo.png" alt="Mastercard" loading="lazy"></a>
+      <a class="logo-item" href="https://www.microsoft.com" target="_blank" rel="noopener"><img src="uploads/Microsoft%20logo.png" alt="Microsoft" loading="lazy"></a>
     </div>
   </div>
 
   <!-- Philosophy -->
-  <div class="section-head">
+  <div class="section-head" data-reveal>
     <div class="title">
       <span class="num">06 — How I work</span>
       <h2>Three principles. Same ones for 13 years.</h2>
@@ -447,34 +487,44 @@
     <p class="desc">The rules I return to when the brief is ambiguous and the deadline is tight.</p>
   </div>
 
-  <div class="philo">
-    <div class="philo-col">
+  <div class="philo" data-reveal-group data-reveal>
+    <div class="philo-col" data-spotlight>
       <span class="n">01 / Simplicity</span>
       <h4>Distil, don't decorate.</h4>
       <p>Most briefs are more complex than they need to be. The first job is finding the simplest version of the problem that's still worth solving — before a single pixel hits a canvas.</p>
     </div>
-    <div class="philo-col">
+    <div class="philo-col" data-spotlight>
       <span class="n">02 / Sketchbook first</span>
       <h4>Paper before pixels.</h4>
       <p>Every project starts with a pen and a cheap sketchbook. Software is good at making bad ideas look convincing. Paper isn't. Paper is where the thinking actually happens.</p>
     </div>
-    <div class="philo-col">
+    <div class="philo-col" data-spotlight>
       <span class="n">03 / Technologist</span>
       <h4>Tools earn their keep.</h4>
       <p>Figma, Webflow, Relume, Spline, Vev, AI. None of them matter on their own — but the right combination collapses a month of work into a week. That's the competitive edge.</p>
     </div>
   </div>
 
-  <!-- CTA -->
-  <div class="cta">
-    <div class="cta-inner">
-      <h3>Curious about a project,<br>or just want to <em>say hello</em>?</h3>
-      <div class="ctas">
-        <a class="btn btn-primary" href="contact.html">Get in touch</a>
-        <a class="btn btn-ghost" href="about.html">More about James</a>
+  <!-- CTA / Contact -->
+  <section id="contact" data-reveal>
+    <div class="contact-wrap" data-spotlight>
+      <div class="contact-inner">
+        <div class="contact-lead">
+          <span class="eyebrow">Contact</span>
+          <h2>Let's build something <em>worth keeping</em>.</h2>
+          <p>Brand, product, or web — if it's the kind of work that rewards a single, senior pair of hands, I'd like to hear about it.</p>
+          <a class="contact-mail" href="mailto:james@morphed.it">james@morphed.it &rarr;</a>
+        </div>
+        <div class="contact-card">
+          <div class="status"><span class="dot"></span>Open to select projects</div>
+          <div class="row"><span class="k">Email</span><span class="v"><a href="mailto:james@morphed.it">james@morphed.it</a></span></div>
+          <div class="row"><span class="k">Phone</span><span class="v"><a href="tel:+447921190353">+44 79211 90353</a></span></div>
+          <div class="row"><span class="k">Studio</span><span class="v">Margate, Kent · UK</span></div>
+          <div class="row"><span class="k">Social</span><span class="v"><a href="https://www.linkedin.com/company/morphed-studio/" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://www.instagram.com/morphed.studio/" target="_blank" rel="noopener">Instagram</a></span></div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- Footer -->
   <footer class="footer">
@@ -486,11 +536,11 @@
     </div>
     <div class="footer-col">
       <h5>Studio</h5>
-      <ul><li><a href="about.html">About</a></li><li><a href="work.html">Work</a></li><li><a href="services.html">Services</a></li><li><a href="journal.html">Journal</a></li></ul>
+      <ul><li><a href="#about">About</a></li><li><a href="#work">Work</a></li><li><a href="#services">Services</a></li><li><a href="#contact">Contact</a></li></ul>
     </div>
     <div class="footer-col">
       <h5>Connect</h5>
-      <ul><li><a href="mailto:james@morphed.it">james@morphed.it</a></li><li><a href="tel:+447921190353">+44 79211 90353</a></li><li><a href="contact.html">Contact</a></li></ul>
+      <ul><li><a href="mailto:james@morphed.it">james@morphed.it</a></li><li><a href="tel:+447921190353">+44 79211 90353</a></li><li><a href="#contact">Contact</a></li></ul>
     </div>
     <div class="footer-col">
       <h5>Elsewhere</h5>
@@ -511,24 +561,29 @@
 </footer>
 
 </div>
+<script src="assets/reveal.js" defer></script>
 <script>
-/* Footer divider pulse — fires once when footer scrolls into view */
+/* Grid glow — teal grid lines ease toward the cursor */
 (function(){
-  const footer = document.querySelector('.footer');
-  if (!footer) return;
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    footer.classList.add('is-pulsing');
-    return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const b = document.body;
+  let tx = -300, ty = -300, x = -300, y = -300, vx = 0, vy = 0, raf = null;
+  function loop(){
+    /* spring: eases in as it starts moving, eases out as it settles */
+    vx += (tx - x) * 0.055; vy += (ty - y) * 0.055;
+    vx *= 0.82; vy *= 0.82;
+    x += vx; y += vy;
+    b.style.setProperty('--gx', x + 'px');
+    b.style.setProperty('--gy', y + 'px');
+    raf = (Math.abs(tx - x) > 0.3 || Math.abs(vx) > 0.3 || Math.abs(ty - y) > 0.3 || Math.abs(vy) > 0.3) ? requestAnimationFrame(loop) : null;
   }
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        footer.classList.add('is-pulsing');
-        io.disconnect();
-      }
-    });
-  }, { threshold: 0.15 });
-  io.observe(footer);
+  window.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'touch') return;
+    tx = e.clientX; ty = e.clientY;
+    b.classList.add('grid-glow-on');
+    if (!raf) raf = requestAnimationFrame(loop);
+  }, { passive: true });
+  window.addEventListener('pointerleave', () => b.classList.remove('grid-glow-on'));
 })();
 </script>
 </body>
