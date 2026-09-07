@@ -97,12 +97,12 @@
   .proj{display:grid; grid-template-columns:repeat(6, 1fr); gap:var(--s-4)}
   @media (max-width:1024px){.proj{grid-template-columns:repeat(2, 1fr)}}
   @media (max-width:600px){.proj{grid-template-columns:1fr}}
-  .proj a.card{grid-column:span 3; background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r-lg); overflow:hidden; display:flex; flex-direction:column; transition:border-color .3s cubic-bezier(0.16,1,0.3,1), transform .3s cubic-bezier(0.16,1,0.3,1); cursor:pointer}
-  .proj a.card.sm{grid-column:span 2}
-  .proj a.card.lg{grid-column:span 4}
-  @media (max-width:1024px){.proj a.card, .proj a.card.sm, .proj a.card.lg{grid-column:span 2}}
-  @media (max-width:600px){.proj a.card, .proj a.card.sm, .proj a.card.lg{grid-column:span 1}}
-  .proj a.card:hover{border-color:var(--teal-500); transform:translateY(-4px)}
+  .proj .card{grid-column:span 3; background:var(--bg-1); border:1px solid var(--border); border-radius:var(--r-lg); overflow:hidden; display:flex; flex-direction:column; transition:border-color .3s cubic-bezier(0.16,1,0.3,1), transform .3s cubic-bezier(0.16,1,0.3,1); cursor:pointer}
+  .proj .card.sm{grid-column:span 2}
+  .proj .card.lg{grid-column:span 4}
+  @media (max-width:1024px){.proj .card, .proj .card.sm, .proj .card.lg{grid-column:span 2}}
+  @media (max-width:600px){.proj .card, .proj .card.sm, .proj .card.lg{grid-column:span 1}}
+  .proj .card:hover{border-color:var(--teal-500); transform:translateY(-4px)}
   .proj .vis{aspect-ratio:4/3; position:relative; overflow:hidden; border-bottom:1px solid var(--border)}
   .proj .body{padding:var(--s-4); display:flex; flex-direction:column; gap:var(--s-2)}
   .proj .body .nm{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal-500); display:flex; justify-content:space-between}
@@ -212,6 +212,36 @@
   .contact-card .status{display:flex; align-items:center; gap:8px; color:var(--teal-500); font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em}
   .contact-card .status .dot{width:6px; height:6px; border-radius:50%; background:var(--teal-500); box-shadow:0 0 8px var(--teal-glow); animation:pulse 2.4s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:1} 50%{opacity:.35}}
+
+  /* Work cards as buttons (lightbox trigger) */
+  .proj .card{appearance:none; font:inherit; color:inherit; text-align:left; width:100%; padding:0; margin:0}
+  .proj .body .nm .plus{display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:50%; border:1px solid var(--border-strong); font-size:13px; line-height:1; color:var(--teal-500); transition:background .25s cubic-bezier(0.16,1,0.3,1), color .25s cubic-bezier(0.16,1,0.3,1), transform .25s cubic-bezier(0.16,1,0.3,1)}
+  .proj .card:hover .body .nm .plus{background:var(--teal-500); color:var(--primary-ink); transform:rotate(90deg)}
+
+  /* Lightbox */
+  .lightbox{position:fixed; inset:0; z-index:100; display:flex; align-items:center; justify-content:center; padding:var(--s-5); opacity:0; visibility:hidden; transition:opacity .35s cubic-bezier(0.22,0.7,0.2,1), visibility 0s linear .35s}
+  .lightbox.is-open{opacity:1; visibility:visible; transition:opacity .35s cubic-bezier(0.22,0.7,0.2,1), visibility 0s}
+  body.lb-open{overflow:hidden}
+  .lb-backdrop{position:absolute; inset:0; background:rgba(6,8,7,0.86); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px)}
+  .lb-panel{position:relative; z-index:1; width:100%; max-width:1080px; max-height:88vh; background:var(--bg-1); border:1px solid var(--border-strong); border-radius:var(--r-lg); overflow:hidden; display:grid; grid-template-columns:1.5fr 1fr; transform:translateY(18px) scale(0.98); transition:transform .35s cubic-bezier(0.22,0.7,0.2,1)}
+  .lightbox.is-open .lb-panel{transform:translateY(0) scale(1)}
+  @media (max-width:820px){.lb-panel{grid-template-columns:1fr; max-height:92vh; overflow-y:auto}}
+  .lb-close{position:absolute; top:var(--s-3); right:var(--s-3); z-index:3; width:34px; height:34px; border-radius:50%; border:1px solid rgba(255,255,255,0.14); background:rgba(6,8,7,0.55); backdrop-filter:blur(6px); color:var(--text); font-size:15px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color .2s, color .2s}
+  .lb-close:hover{border-color:var(--teal-500); color:var(--teal-500)}
+  .lb-media{position:relative; background:var(--bg-2); display:flex; align-items:center; justify-content:center; aspect-ratio:4/3}
+  @media (max-width:820px){.lb-media{aspect-ratio:16/11}}
+  .lb-stage{position:relative; width:100%; height:100%; touch-action:pan-y}
+  .lb-stage img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .3s ease}
+  .lb-stage img.is-active{opacity:1}
+  .lb-arrow{position:absolute; top:50%; transform:translateY(-50%); z-index:2; width:38px; height:38px; border-radius:50%; border:1px solid rgba(255,255,255,0.14); background:rgba(6,8,7,0.5); backdrop-filter:blur(6px); color:var(--text); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color .2s, color .2s}
+  .lb-arrow:hover{border-color:var(--teal-500); color:var(--teal-500)}
+  .lb-prev{left:var(--s-3)}
+  .lb-next{right:var(--s-3)}
+  .lb-counter{position:absolute; left:var(--s-3); bottom:var(--s-3); z-index:2; font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; color:var(--text); background:rgba(6,8,7,0.55); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,0.12); padding:5px 9px; border-radius:999px}
+  .lb-info{padding:var(--s-6); display:flex; flex-direction:column; gap:var(--s-3); overflow-y:auto}
+  .lb-info .nm{font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--teal-500); display:flex; justify-content:space-between}
+  .lb-info h3{font-size:26px; letter-spacing:-0.02em}
+  .lb-info p{font-size:14px; color:var(--muted); line-height:1.7}
 </style>
 </head>
 <body>
@@ -330,54 +360,54 @@
   </div>
 
   <div class="proj" data-reveal-group data-reveal>
-    <a class="card sm" data-spotlight href="#contact">
+    <button type="button" class="card sm" data-spotlight data-project="sybajet">
       <div class="vis"><img class="photo" src="uploads/Sybajet%2002-622b52e4.jpg" width="1200" height="901" alt="Sybajet private aviation website" loading="lazy"></div>
       <div class="body">
-        <div class="nm"><span>Sybajet · 2025</span><span>→</span></div>
+        <div class="nm"><span>Sybajet · 2025</span><span class="plus" aria-hidden="true">+</span></div>
         <h3>Fly the exceptional</h3>
         <p>Website and brand creation in Webflow + GSAP.</p>
       </div>
-    </a>
-    <a class="card sm" data-spotlight href="#contact">
+    </button>
+    <button type="button" class="card sm" data-spotlight data-project="igt">
       <div class="vis"><img class="photo" src="uploads/620055ba3bd9b928d9a05538_Griffin-App.png" width="1200" height="786" alt="IGT lottery app screens" loading="lazy"></div>
       <div class="body">
-        <div class="nm"><span>IGT · 2022</span><span>→</span></div>
+        <div class="nm"><span>IGT · 2022</span><span class="plus" aria-hidden="true">+</span></div>
         <h3>From tired to top-rated</h3>
         <p>1★ to 4.8★ · Best Lottery Product 2021.</p>
       </div>
-    </a>
-    <a class="card sm" data-spotlight href="#contact">
+    </button>
+    <button type="button" class="card sm" data-spotlight data-project="charles-dean">
       <div class="vis"><img class="photo" src="uploads/Charles%20%26%20Dean%2002.jpg" width="1200" height="901" alt="Charles & Dean website redesign" loading="lazy"></div>
       <div class="body">
-        <div class="nm"><span>Charles &amp; Dean · 2025</span><span>→</span></div>
+        <div class="nm"><span>Charles &amp; Dean · 2025</span><span class="plus" aria-hidden="true">+</span></div>
         <h3>Into the digital age</h3>
         <p>Full UX/UI remake of a finance brand's website.</p>
       </div>
-    </a>
-    <a class="card sm" data-spotlight href="#contact">
+    </button>
+    <button type="button" class="card sm" data-spotlight data-project="dayshape">
       <div class="vis"><img class="photo" src="uploads/Dayshape-4ef12bf5.jpg" width="1200" height="900" alt="Dayshape website with custom illustration" loading="lazy"></div>
       <div class="body">
-        <div class="nm"><span>Dayshape · 2025</span><span>→</span></div>
+        <div class="nm"><span>Dayshape · 2025</span><span class="plus" aria-hidden="true">+</span></div>
         <h3>Resource management, rearchitected</h3>
         <p>Website rearchitecture with personalised illustration throughout.</p>
       </div>
-    </a>
-    <a class="card sm" data-spotlight href="#contact">
+    </button>
+    <button type="button" class="card sm" data-spotlight data-project="immersive-studio">
       <div class="vis"><img class="photo" src="uploads/IMS%2003-bdc1d0fe.jpg" width="1200" height="901" alt="Immersive Studio rebrand" loading="lazy"></div>
       <div class="body">
-        <div class="nm"><span>Immersive Studio · 2024</span><span>→</span></div>
+        <div class="nm"><span>Immersive Studio · 2024</span><span class="plus" aria-hidden="true">+</span></div>
         <h3>A new studio identity</h3>
         <p>Rebrand and new website, curated on Vev.</p>
       </div>
-    </a>
-    <a class="card sm" data-spotlight href="#contact">
+    </button>
+    <button type="button" class="card sm" data-spotlight data-project="expert-clinic">
       <div class="vis"><img class="photo" src="uploads/Expert%20Clinic%2002-ac3c11de.jpg" width="1200" height="901" alt="The Expert Clinic editorial website" loading="lazy"></div>
       <div class="body">
-        <div class="nm"><span>The Expert Clinic · 2023</span><span>→</span></div>
+        <div class="nm"><span>The Expert Clinic · 2023</span><span class="plus" aria-hidden="true">+</span></div>
         <h3>Beauty on board</h3>
         <p>Award-winning editorial redesign for a Glasgow clinic.</p>
       </div>
-    </a>
+    </button>
   </div>
 
   <div style="margin-top:var(--s-5); display:flex; justify-content:center">
@@ -568,6 +598,26 @@
 </footer>
 
 </div>
+
+<!-- Work lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lb-backdrop" data-lb-close></div>
+  <div class="lb-panel" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+    <button type="button" class="lb-close" data-lb-close aria-label="Close">✕</button>
+    <div class="lb-media">
+      <button type="button" class="lb-arrow lb-prev" data-lb-prev aria-label="Previous image">‹</button>
+      <div class="lb-stage" id="lbStage"></div>
+      <button type="button" class="lb-arrow lb-next" data-lb-next aria-label="Next image">›</button>
+      <div class="lb-counter"><span id="lbCurrent">1</span> / <span id="lbTotal">1</span></div>
+    </div>
+    <div class="lb-info">
+      <div class="nm"><span id="lbName"></span><span id="lbYear"></span></div>
+      <h3 id="lbTitle"></h3>
+      <p id="lbDesc"></p>
+    </div>
+  </div>
+</div>
+
 <script src="assets/reveal.js" defer></script>
 <script>
 /* Grid glow — teal grid lines ease toward the cursor */
@@ -591,6 +641,133 @@
     if (!raf) raf = requestAnimationFrame(loop);
   }, { passive: true });
   window.addEventListener('pointerleave', () => b.classList.remove('grid-glow-on'));
+})();
+</script>
+<script>
+/* Work lightbox */
+(function(){
+  const PROJECTS = {
+    sybajet: {
+      name: 'Sybajet', year: '2025', title: 'Fly the exceptional',
+      desc: "I built the brand and website for Sybajet, a private jet charter company, from identity through to a fully responsive Webflow build with GSAP animation throughout. The aim was a site that felt as considered as the clientele it's built for: dark, editorial, and unhurried.",
+      images: ['uploads/work/sybajet/01.jpg','uploads/work/sybajet/02.jpg','uploads/work/sybajet/03.jpg','uploads/work/sybajet/04.jpg']
+    },
+    igt: {
+      name: 'IGT', year: '2022', title: 'From tired to top-rated',
+      desc: "I led the UX redesign of IGT's lottery app for a large, established user base. The rebuilt app went from a 1★ average to 4.8★ with over 3,000 reviews, and won Best Lottery Product of the Year at the 2021 Lottery Awards.",
+      images: ['uploads/work/igt/01.jpg','uploads/work/igt/02.jpg','uploads/work/igt/03.jpg']
+    },
+    'charles-dean': {
+      name: 'Charles & Dean', year: '2025', title: 'Into the digital age',
+      desc: "A full UX and UI remake of a car and business finance brand's website, moving it from a dated, forms-heavy site to something built for how people actually apply for finance today.",
+      images: ['uploads/work/charles-dean/01.jpg','uploads/work/charles-dean/02.jpg','uploads/work/charles-dean/03.jpg','uploads/work/charles-dean/04.jpg']
+    },
+    dayshape: {
+      name: 'Dayshape', year: '2025', title: 'Resource management, rearchitected',
+      desc: "A rearchitecture of Dayshape's marketing site, restructuring the information for a more technical B2B audience and introducing bespoke illustration throughout to make an AI resourcing platform feel more human.",
+      images: ['uploads/work/dayshape/01.jpg','uploads/work/dayshape/02.jpg','uploads/work/dayshape/03.jpg','uploads/work/dayshape/04.jpg']
+    },
+    'immersive-studio': {
+      name: 'Immersive Studio', year: '2024', title: 'A new studio identity',
+      desc: "A rebrand and new website for an immersive content studio working across pharma and healthcare. Built and curated on Vev, leaning into bold gradients and motion to match the kind of work the studio makes.",
+      images: ['uploads/work/immersive-studio/01.jpg','uploads/work/immersive-studio/02.jpg','uploads/work/immersive-studio/03.jpg','uploads/work/immersive-studio/04.jpg']
+    },
+    'expert-clinic': {
+      name: 'The Expert Clinic', year: '2023', title: 'Beauty on board',
+      desc: "An editorial-led redesign for an aesthetics clinic in Glasgow, built around clearer before-and-afters and a calmer, more premium feel. It went on to win a Web Excellence Award.",
+      images: ['uploads/work/expert-clinic/01.jpg','uploads/work/expert-clinic/02.jpg','uploads/work/expert-clinic/03.jpg','uploads/work/expert-clinic/04.jpg','uploads/work/expert-clinic/05.jpg']
+    }
+  };
+
+  const lb = document.getElementById('lightbox');
+  if (!lb) return;
+  const stage = document.getElementById('lbStage');
+  const elCurrent = document.getElementById('lbCurrent');
+  const elTotal = document.getElementById('lbTotal');
+  const elName = document.getElementById('lbName');
+  const elYear = document.getElementById('lbYear');
+  const elTitle = document.getElementById('lbTitle');
+  const elDesc = document.getElementById('lbDesc');
+
+  let current = null, index = 0, lastFocus = null;
+
+  function render(){
+    const p = PROJECTS[current];
+    if (!p) return;
+    stage.querySelectorAll('img').forEach((img, i) => img.classList.toggle('is-active', i === index));
+    elCurrent.textContent = index + 1;
+    elTotal.textContent = p.images.length;
+  }
+
+  function open(key){
+    const p = PROJECTS[key];
+    if (!p) return;
+    current = key; index = 0;
+    stage.innerHTML = '';
+    p.images.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src; img.alt = p.name + ' — image ' + (i + 1);
+      if (i === 0) img.classList.add('is-active');
+      stage.appendChild(img);
+    });
+    elName.textContent = p.name + ' · ' + p.year;
+    elYear.textContent = '';
+    elTitle.textContent = p.title;
+    elDesc.textContent = p.desc;
+    elTotal.textContent = p.images.length;
+    elCurrent.textContent = 1;
+    lastFocus = document.activeElement;
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lb-open');
+    lb.querySelector('.lb-close').focus();
+  }
+
+  function close(){
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lb-open');
+    current = null;
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function next(){
+    const p = PROJECTS[current];
+    if (!p) return;
+    index = (index + 1) % p.images.length;
+    render();
+  }
+
+  function prev(){
+    const p = PROJECTS[current];
+    if (!p) return;
+    index = (index - 1 + p.images.length) % p.images.length;
+    render();
+  }
+
+  document.querySelectorAll('[data-project]').forEach(card => {
+    card.addEventListener('click', () => open(card.getAttribute('data-project')));
+  });
+  lb.querySelectorAll('[data-lb-close]').forEach(el => el.addEventListener('click', close));
+  lb.querySelector('[data-lb-next]').addEventListener('click', next);
+  lb.querySelector('[data-lb-prev]').addEventListener('click', prev);
+
+  document.addEventListener('keydown', (e) => {
+    if (!lb.classList.contains('is-open')) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowRight') next();
+    else if (e.key === 'ArrowLeft') prev();
+  });
+
+  /* Swipe support */
+  let touchX = null;
+  stage.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', (e) => {
+    if (touchX === null) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
+    touchX = null;
+  }, { passive: true });
 })();
 </script>
 </body>
